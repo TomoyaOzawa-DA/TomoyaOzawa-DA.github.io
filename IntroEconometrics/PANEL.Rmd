@@ -1,0 +1,126 @@
+
+# パネルデータ分析
+
+## 検証する仮説
+「当該路線上で市場集中度が高いほど、運賃は高くなるのでは？」という仮説を検証してみます。市場集中度を示す値として、今回の分析では各路線上でトップシェアを誇るエアラインの市場シェアを使って分析していきます。
+
+
+## データの読み込み
+
+
+```{r panle 0, results='hide'}
+library(openxlsx)
+```
+
+```{r panle 1}
+df <- read.xlsx("data/airfare.xlsx")
+head(df)
+```
+
+## データの把握
+### 基本統計量
+```{r panel stat sum}
+summary(df)
+```
+
+### データの可視化
+```{r panel visual prep , results='hide'}
+library(ggpubr)
+```
+
+```{r panel visual}
+gghistogram(df, x = "fare", bins = 30, title = "Histogram of fare")
+```
+
+### 対数変換
+```{r panel log}
+df$ln_fare <- log(df$fare)
+gghistogram(df, x = "ln_fare", bins = 30, title = "Histogram of ln_fare")
+```
+
+## 推定
+
+### 計量経済学モデル
+
+$$ 
+ln\_fare_{i,t} = \alpha + \beta_{1}\times bmktshr_{i,t}+ \beta_{2}\times dist_{i,t}+ \beta_{3}\times passen_{i,t}+ F_i + u_{i,t} 
+$$
+
+### 準備
+```{r panel stat 0, results='hide'}
+library(plm)
+```
+
+
+```{r panel prep }
+df_panel <- pdata.frame(df, index = c('ID', 'year'))
+```
+
+### 変量効果モデル
+```{r panel random 1}
+out_random <- plm(ln_fare ~ bmktshr+ dist + passen , data = df_panel, model = "random")
+```
+
+```{r panel random result}
+summary(out_random)
+```
+
+### 固定効果モデル
+```{r panel fixed 1}
+out_fix <- plm(ln_fare ~ bmktshr+ dist + passen , data = df_panel, model = "within")
+```
+
+```{r panel fixed result}
+summary(out_fix)
+```
+固定効果自体はfixefで取り出せます。
+
+```{r fixed effext}
+mean(fixef(out_fix))
+```
+
+### ハウスマン検定
+
+```{r hausman}
+phtest(out_fix, out_random)
+```
+
+### 固定効果×時間効果
+
+$$ 
+ln\_fare_{i,t} = \alpha + \beta_{1}\times bmktshr_{i,t}+ \beta_{2}\times dist_{i,t}+ \beta_{3}\times passen_{i,t}+ F_i +y\_1997_{i, t} +y\_1998_{i, t} +y\_1999_{i, t} + u_{i,t} 
+$$
+
+```{r fixed effext time effect}
+out_fix_time <- plm(ln_fare ~ bmktshr+ dist + passen , data = df_panel, effect = "twoways", model = "within")
+summary(out_fix_time)
+```
+
+
+## 推定結果の整理
+
+```{r panel stargazer 0, results='hide'}
+library(stargazer)
+```
+
+
+```{r panel ols}
+out_OLS <- lm(ln_fare ~ bmktshr+ dist + passen , data = df)
+```
+
+```{r panel result sum}
+stargazer(out_OLS, out_fix, out_random, out_fix_time, type="text")
+```
+
+
+
+
+
+
+
+
+
+
+
+
+

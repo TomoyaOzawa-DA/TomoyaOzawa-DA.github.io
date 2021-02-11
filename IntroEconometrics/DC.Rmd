@@ -1,0 +1,87 @@
+
+# 離散選択モデル
+
+## 検証する仮説
+「自社の店舗が多い地域ほど出店確率が高まるのでは？」という仮説を検証してみます。ドミナント戦略が取られていれば、この仮説通りになっているはず…。
+
+
+## データの読み込み
+
+```{r DC 1}
+df <- read.csv('data/Mitaron_convenience.csv')
+head(df)
+```
+
+## データの把握
+```{r DC stat sum}
+summary(df)
+```
+
+
+## 推定
+
+### 計量経済学モデル
+
+$$ 
+Familymart\_Entry = \begin{cases}
+    1 & (\lambda_i \ge \mu) \\
+    0 & (\lambda_i < \mu)
+  \end{cases}
+$$
+
+$$ 
+\lambda_{i} = \alpha + \beta_{1}\times Familymart\_existed_{i}+ \beta_{2}\times pop_{i} + u_{i} 
+$$
+
+$$
+P(Familymart\_Entry = 1) = F(\alpha + \beta_{1}\times Familymart\_existed_{i}+ \beta_{2}\times pop_{i} + u_{i} )
+$$
+
+### ロジットモデル
+
+```{r DC logit 1}
+out_logit = glm( Familymart_Entry ~ Familymart_existed + pop, family = binomial(link = "logit"), data = df)
+```
+
+### 解釈
+```{r DC logit result}
+summary(out_logit)
+```
+
+
+```{r margins logit 0, results='hide'}
+library(margins)
+```
+
+```{r margins logit 1}
+summary(margins(out_logit))
+```
+
+### プロビットモデル
+
+```{r DC probit 1}
+out_probit = glm( Familymart_Entry ~ Familymart_existed + pop, family = binomial(link = "probit"), data = df)
+```
+
+### 解釈
+```{r DC probit result}
+summary(out_probit)
+```
+
+```{r margins probit 1}
+summary(margins(out_probit))
+```
+
+## 推定結果の整理
+```{r DC stargazer 0, results='hide'}
+library(stargazer)
+```
+
+
+```{r DC ols}
+out_OLS <- lm(Familymart_Entry ~ Familymart_existed + pop, data = df)
+```
+
+```{r DC result sum}
+stargazer(out_OLS, out_logit, out_probit, type="text")
+```

@@ -1,0 +1,8 @@
+book_filename: "R Intro Econometrics" 
+chapter_name: "Chapter "  
+output_dir: "docs"   
+rmd_files:
+  - OLS.Rmd 
+  - IV.Rmd
+  - DC.Rmd
+  - PANEL.Rmd

@@ -1,0 +1,61 @@
+
+# 操作変数法
+
+## 検証する仮説
+
+
+
+## データの読み込み
+
+```{r IV 1}
+df <- read.csv('data/labsup_edited.csv')
+head(df)
+```
+
+## データの把握
+```{r IV stat sum}
+summary(df)
+```
+
+
+## 推定
+
+### 計量経済学モデル
+
+$$ 
+weeksm1_{i} = \alpha + \beta_{1}\times morekids_{i}+ \beta_{2}\times agem1_{i}+ \beta_{3}\times black_{i}+ \beta_{4}\times hispan_{i} + \beta_{5}\times othrace_{i} + u_{i} 
+$$
+
+$$ 
+morekids_{i} = \alpha + \beta_{1}\times samesex_{i}+ \beta_{2}\times agem1_{i}+ \beta_{3}\times black_{i}+ \beta_{4}\times hispan_{i} + \beta_{5}\times othrace_{i} + u_{i} 
+$$
+
+### 推定
+```{r IV stat 0, results='hide'}
+library(AER)
+```
+
+
+
+```{r IV stat 1}
+out_iv <- ivreg( weeksm1 ~ morekids + agem1 + black + hispan + othrace  |  samesex + agem1 + black + hispan + othrace, data = df)
+```
+
+### 解釈
+```{r multi OLS result IV}
+summary(out_iv)
+```
+
+## 推定結果の整理
+```{r IV stargazer 0, results='hide'}
+library(stargazer)
+```
+
+
+```{r IV ols}
+out_OLS <- lm(weeksm1 ~ morekids + agem1 + black + hispan + othrace , data = df)
+```
+
+```{r IV result sum}
+stargazer(out_OLS, out_iv, type="text")
+```

@@ -1,0 +1,173 @@
+---
+title: "Rで計量経済学"
+author: "Tomoya Ozawa"
+date: 'Last Update: 02/11/2021'
+site: bookdown::bookdown_site
+output: bookdown::gitbook
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# 回帰分析
+## 検証する仮説
+
+「教育年数が増えると,賃金は増加するのでは?」という仮説を検証していきます
+
+## データの読み込み
+
+```{r OLS 1}
+df <- read.csv("data/female_labor.csv")
+head(df)
+```
+
+## データの把握
+
+### ヒストグラム
+
+
+```{r OLS hist 1}
+hist(df$education)
+```
+
+```{r OLS hist 2}
+hist(df$hourly_wage)
+```
+
+### 散布図
+
+```{r OLS plot 1}
+plot(df$education, df$hourly_wage)
+```
+
+
+### 基本統計量
+
+```{r OLS stat 1}
+summary(df)
+```
+
+## 単回帰分析
+
+### 計量経済学モデル
+
+$$ 
+hourly\_wage_{i} = \alpha + \beta\times education_{i} + u_{i} 
+$$
+
+### 推定
+
+```{r simple OLS est 1}
+out_simple_regress <- lm(hourly_wage ~ education, data = df)
+```
+
+
+### 解釈
+```{r simple OLS result 1}
+summary(out_simple_regress)
+```
+
+
+```{r simple OLS plot}
+plot(df$education, df$hourly_wage)
+
+abline(out_simple_regress, col = "blue")
+```
+
+## 重回帰分析 1
+
+
+### 計量経済学モデル
+
+$$ 
+hourly\_wage_{i} = \alpha + \beta_{1}\times education_{i}+ \beta_{2}\times working\_hours_{i}+ \beta_{3}\times number\_kids_{i} + u_{i} 
+$$
+
+### データの加工: 新規変数作成
+
+```{r multi OLS prpcessing 1}
+df$number_kids <- df$number_kids_under6 + df$number_kids_6to18
+head(df)
+```
+
+### 推定
+
+```{r multi OLS est 1}
+out_multi_regress_1 <- lm(hourly_wage ~ education + working_hours + number_kids, data = df )
+```
+
+
+### 解釈
+```{r multi OLS result 1}
+summary(out_multi_regress_1)
+```
+
+## 重回帰分析 2
+
+
+### 計量経済学モデル 
+
+$$ 
+hourly\_wage_{i} = \alpha + \beta_{1}\times education_{i}+ \beta_{2}\times age_{i} + \beta_{3}\times working\_dummy_{i} + \beta_{4}\times mother\_edu_{i} + \beta_{5}\times father\_edu_{i} + u_{i} 
+$$
+
+### データの加工: 欠損値の補完
+
+```{r multi OLS prpcessing 2 1}
+# dfの欠損値を全て0にする
+df[is.na(df)] <- 0
+
+# あるいはdfのmother_eduという列の欠損値を0にする
+df$mother_edu[is.na(df$mother_edu)] <- 0
+```
+
+### データの加工: ダミー変数
+
+```{r multi OLS prpcessing 2 2}
+df$working_dummy <- ifelse(df$working_hours>0, 1,0)
+```
+### 推定
+
+```{r multi OLS est 2}
+out_multi_regress_2 <- lm(hourly_wage ~ education + age + working_dummy + mother_edu + father_edu, data = df )
+```
+
+
+### 解釈
+```{r multi OLS result 2}
+summary(out_multi_regress_2)
+```
+
+
+## 捕捉
+### 多重共線性
+
+```{r cor}
+cor(df)
+```
+
+```{r multico prep}
+library(psych)
+```
+
+```{r multico}
+cor.plot(cor(df))
+```
+
+
+```{r VIF prep}
+library(car)
+```
+
+
+```{r VIF}
+vif(out_multi_regress_2)
+```
+
+
+
+
+
+
+
+
