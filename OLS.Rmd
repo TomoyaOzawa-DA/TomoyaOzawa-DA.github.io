@@ -12,19 +12,35 @@ knitr::opts_chunk$set(echo = TRUE)
 # 回帰分析
 ## 検証する仮説
 
-「教育年数が増えると,賃金は増加するのでは?」という仮説を検証していきます
+「教育年数が増えると,賃金は増加するのでは?」という仮説を検証していきます。
 
 ## データの読み込み
+
+データを読み込む際は```read.csv()```関数を使います。()の中で読み込みたいデータがあるファイル名を指定してます。このコードの場合、カレントディレクトリの中のdataというフォルダ内にあるデータfemale_labor.csvを読み込むという操作をしています。Rのディレクトリ関連の話は[ここ](https://qiita.com/d-cassette/items/59bb6e4b9bbf8e53d2a9)に詳しくまとまっています。そもそもディレクトリってなんやねんと感じている方は[こちら](https://www.pc-master.jp/words/directory.html)を参照してください。
 
 ```{r OLS 1}
 df <- read.csv("data/female_labor.csv")
 head(df)
 ```
+```head()```関数でデータの先頭6行を出力することが出来ます。反対に、```tail()```とすると後ろから6行を出力出来ます。
+
+○変数の説明
+|  変数名  |  説明  |
+| ---- | ---- |
+|  working_hous  |  労働時間  |
+|  age  |  年齢  |
+|  education  |  教育年数  |
+|  hourly_wage  |  時給（ドル）  |
+|  mother_edu  |  母親の教育年数  |
+|  father_edu  |  父親の教育年数  |
+|  number_kids_under6  |  6才未満の子供の数  |
+|  number_kids_6to18  | 6〜18才の子供の数   |
+
 
 ## データの把握
 
 ### ヒストグラム
-
+分析に入る前にデータを可視化していきます。1つの変数の分布を把握する時には```hist()```を使います。()内でデータの指定をします。今回はdfという名前のデータのeducationという変数のヒストグラムを出力しています。
 
 ```{r OLS hist 1}
 hist(df$education)
@@ -35,6 +51,7 @@ hist(df$hourly_wage)
 ```
 
 ### 散布図
+2つの変数の関係を可視化する際には、```plot()```という関数を使います。()内でデータを2つ指定します。
 
 ```{r OLS plot 1}
 plot(df$education, df$hourly_wage)
@@ -42,7 +59,7 @@ plot(df$education, df$hourly_wage)
 
 
 ### 基本統計量
-
+データの傾向を統計学で学んだ指標で理解してみましょう。```summary()```関数を使うと、()内で指定したデータの各変数について基本統計量を出力してくれます。```NA's```は欠損値の個数を示しています。欠損値は数値が入ってない、不明な値のことです。
 ```{r OLS stat 1}
 summary(df)
 ```
@@ -56,6 +73,7 @@ hourly\_wage_{i} = \alpha + \beta\times education_{i} + u_{i}
 $$
 
 ### 推定
+回帰分析をする際には、```lm(被説明変数 ~ 説明変数, data = データの名前)```関数を使います。()内で①回帰式と②使用するデータの2つを指定します。このコードだと、結果は```out_simple_regress```というオブジェクトに保存されます。
 
 ```{r simple OLS est 1}
 out_simple_regress <- lm(hourly_wage ~ education, data = df)
@@ -63,55 +81,35 @@ out_simple_regress <- lm(hourly_wage ~ education, data = df)
 
 
 ### 解釈
+回帰分析の結果は```summary()```関数で確認することができます。()内に分析結果のオブジェクトを入れます。
 ```{r simple OLS result 1}
 summary(out_simple_regress)
 ```
 
-
+先ほどの散布図に推定した回帰式をくっつけてみましょう。図に線を足す時には```abline()```関数を使います。今回は```col="blue"```で直線の色を青色に指定しました。推定結果のeducationのEstimateが推定されたパラメータ$\alpha$の値を示しています。0.45264と正の値なので、右肩上がりの直線になりそうですね。
 ```{r simple OLS plot}
 plot(df$education, df$hourly_wage)
-
 abline(out_simple_regress, col = "blue")
 ```
 
-## 重回帰分析 1
 
-
-### 計量経済学モデル
-
+## 重回帰分析
+### 計量経済学モデル 
+次に、説明変数が2つ以上ある回帰モデル、重回帰分析を扱います。想定する回帰式は以下の通りです。
 $$ 
-hourly\_wage_{i} = \alpha + \beta_{1}\times education_{i}+ \beta_{2}\times working\_hours_{i}+ \beta_{3}\times number\_kids_{i} + u_{i} 
+hourly\_wage_{i} = \alpha + \beta_{1}\times education_{i}+ \beta_{2}\times age_{i} + \beta_{3}\times working\_dummy_{i} + \beta_{4}\times mother\_edu_{i} + \beta_{5}\times father\_edu_{i} + \beta_{6}\times number\_kids_{i}+  u_{i} 
 $$
 
 ### データの加工: 新規変数作成
+18才以下の子供の数を示すnumber_kidsという変数を作成してみましょう。number_kids_under6とnumber_kids_6to18の和がこの値になります。```<-```は代入を示しています。つまり、number_kidsという変数はnumber_kids_under6+number_kids_6to18で得られる結果を代入した値となります。```head()```関数で出力したデータをみて、正しく作られているか確認しましょう。
 
 ```{r multi OLS prpcessing 1}
 df$number_kids <- df$number_kids_under6 + df$number_kids_6to18
 head(df)
 ```
 
-### 推定
-
-```{r multi OLS est 1}
-out_multi_regress_1 <- lm(hourly_wage ~ education + working_hours + number_kids, data = df )
-```
-
-
-### 解釈
-```{r multi OLS result 1}
-summary(out_multi_regress_1)
-```
-
-## 重回帰分析 2
-
-
-### 計量経済学モデル 
-
-$$ 
-hourly\_wage_{i} = \alpha + \beta_{1}\times education_{i}+ \beta_{2}\times age_{i} + \beta_{3}\times working\_dummy_{i} + \beta_{4}\times mother\_edu_{i} + \beta_{5}\times father\_edu_{i} + u_{i} 
-$$
-
-### データの加工: 欠損値の補完
+### データの加工: 欠損値の処理
+最初の方でデータの基本統計量を確認した際にmother_eduとfather_eduに欠損値```NA```がありました。今回はこの```NA```を埋めてみましょう。今回は欠損している箇所は0、つまり教育を受けていない人と解釈します。欠損値を処理する際には、欠損していることに意味があるのかどうか？をしっかり考えてください。
 
 ```{r multi OLS prpcessing 2 1}
 # dfの欠損値を全て0にする
@@ -119,34 +117,59 @@ df[is.na(df)] <- 0
 
 # あるいはdfのmother_eduという列の欠損値を0にする
 df$mother_edu[is.na(df$mother_edu)] <- 0
+
+# 欠損値を含む行を削除する場合は
+na.omit(df)
 ```
 
 ### データの加工: ダミー変数
+ダミー変数とは、ある条件を満たしたら1をそれ以外であれば0の2値だけをとる変数のことです。今回はworking_dummyという働いているかいないかを示すダミー変数を作ってみます。```ifelse(条件, 条件に合う場合, 合わない場合)```関数を使うと簡単に作ることが出来ます。今回はworking_hours>0を条件として、これを満たせば1を満たさなければ0を取るとしています。
 
 ```{r multi OLS prpcessing 2 2}
 df$working_dummy <- ifelse(df$working_hours>0, 1,0)
 ```
-### 推定
 
+### 推定
+重回帰分析も同様に```lm()```関数を使います。説明変数を+で繋げていきます。
 ```{r multi OLS est 2}
-out_multi_regress_2 <- lm(hourly_wage ~ education + age + working_dummy + mother_edu + father_edu, data = df )
+out_multi_regress <- lm(hourly_wage ~ education + age + working_dummy + mother_edu + father_edu + number_kids, data = df )
 ```
 
 
 ### 解釈
+これも単回帰と同様に```summary```関数です。
+
 ```{r multi OLS result 2}
-summary(out_multi_regress_2)
+summary(out_multi_regress)
+```
+- lm(formula = hourly_wage ~ education, data = df): 回帰式を再掲しています。
+- Residuals: 誤差項 $u_i$の分布
+- Coefficients: 
+  - Estimate: パラメータ$\alpha, \beta_1,\beta_2, \cdots,\beta_6 $の値
+  - Std. Error: 標準誤差
+  - t value: t値
+  - Pr(>|t|): p値, 0~0.001の間なら`***`, 0.001~0.01の間なら`**`, 0.01~0.05の間なら`*`が付きます。
+- Multiple R-squared: 決定係数の値です。重回帰分析の場合はAdjusted R-squared（自由度調整済み決定係数）をみます。
+- F-statistic: F値
+
+
+このようにパラメータの値だけを取り出すことも出来ます。
+```{r multi OLS result 3}
+out_multi_regress$coefficients
 ```
 
-
-## 捕捉
-### 多重共線性
+## 捕捉：多重共線性
+### 相関係数
+説明変数間で強い相関がみられると、パラメータの推定値にバイアスがかかってしまいます。そのため、重回帰分析の前に説明変数間での相関係数をチェックすることが望ましいです。```cor()```関数で相関係数を出力することが出来ます。
 
 ```{r cor}
 cor(df)
 ```
 
-```{r multico prep}
+```cor()```関数で相関係数は問題なく出力できますが、如何せん見にくいです。```psych```ライブラリの```cor.plot()```関数を使うと、見やすく相関係数を可視化してくれます。```psych```ライブラリを初めて使う方は```install.packages("psych")```を実行してください。
+
+
+```{r multico prep, results='hide'}
 library(psych)
 ```
 
@@ -154,14 +177,16 @@ library(psych)
 cor.plot(cor(df))
 ```
 
+### VIF統計量
+VIF統計量は多重共線性の疑いを定量化できる指標です。10以上の値がでたら怪しんだ方が良いみたいです。理想は2以下らしいです。
 
-```{r VIF prep}
+```{r VIF prep, results='hide'}
 library(car)
 ```
 
 
 ```{r VIF}
-vif(out_multi_regress_2)
+vif(out_multi_regress)
 ```
 
 
