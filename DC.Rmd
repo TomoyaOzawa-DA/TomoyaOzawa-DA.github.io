@@ -2,15 +2,30 @@
 # 離散選択モデル
 
 ## 検証する仮説
-「自社の店舗が多い地域ほど出店確率が高まるのでは？」という仮説を検証してみます。ドミナント戦略が取られていれば、この仮説通りになっているはず…。
+「自社の店舗が多い地域ほど出店確率が高まるのでは？」という仮説をFamilymartに関して検証してみます。ドミナント戦略が取られていれば、この仮説通りになっているはずです。三田論コンビニ班の簡易的な分析です。
 
 
 ## データの読み込み
+各（メッシュ）地域における、2011年~2018年ごとのFamilymart, LAWSONの参入行動とその地域特性を示したデータです。例えば、メッシュ地域362327851（`head()`でデータを見た時に一番上にでてくる地域）は2013年にFamilymartが初めて参入したことがわかります。
 
 ```{r DC 1}
 df <- read.csv('data/Mitaron_convenience.csv')
 head(df)
 ```
+
+○変数の説明
+
+|  変数名  |  説明  |
+| ---- | ---- |
+|  Mesh_area  |  メッシュ地域  |
+|  Open_year  |  2011~2018年  |
+|  Familymart_Entry  |  Familymartの参入したら1をとるダミー変数  |
+|  LAWSON_Entry  |  LAWSONの参入したら1をとるダミー変数  |
+|  Familymart_existed  |  Familymartの既存店舗数  |
+|  LAWSON_existed  |  LAWSONの既存店舗数  |
+|  pop  |  当該地域の従業員の人口  |
+|  n_employee  | 当該地域の従業員の数   |
+|  super_count  | スーパーの店舗数   |
 
 ## データの把握
 ```{r DC stat sum}
@@ -22,66 +37,90 @@ summary(df)
 
 ### 計量経済学モデル
 
+今回は被説明変数`Familymart\_Entry_i`がダミー変数を取る（0と1だけなので離散変数）ので、ロジットモデルやプロビットモデルに代表される離散選択モデルで推定します。$\lambda_i$が$\mu$より大きい場合に`Familymart\_Entry_i`が1を取り、それ以外の場合に`Familymart\_Entry_i`が0を取るというモデルを考えます。
+
 $$ 
-Familymart\_Entry = \begin{cases}
+Familymart\_Entry_{i} = \begin{cases}
     1 & (\lambda_i \ge \mu) \\
     0 & (\lambda_i < \mu)
   \end{cases}
 $$
 
+$\lambda_i$は以下のような回帰式で表現出来るとします。今回の仮説が成り立っているなら、$\beta_{1}$は正になるはずです。
+
 $$ 
 \lambda_{i} = \alpha + \beta_{1}\times Familymart\_existed_{i}+ \beta_{2}\times pop_{i} + u_{i} 
 $$
+
+離散選択モデルでは、選択確率を求めることが出来ます。$P(Familymart\_Entry = 1)$はFamilymartが参入する確率です。$F(\cdot)$は累積分布関数を示しており、ロジットモデルなら、ロジスティック分布、プロビットモデルなら標準正規分布の累積分布関数である。
 
 $$
 P(Familymart\_Entry = 1) = F(\alpha + \beta_{1}\times Familymart\_existed_{i}+ \beta_{2}\times pop_{i} + u_{i} )
 $$
 
+ロジットモデルとプロビットモデルの両方でこれから推定してみます。
+
 ### ロジットモデル
+ロジットモデルを推定する際は`glm()`関数を使います。基本的にはOLS推定と一緒ですが、()内でロジットモデルであることを指定するため、`family = binominal(link = "logit")`と指定します。結果を`out_logit`に保存します。
 
 ```{r DC logit 1}
-out_logit = glm( Familymart_Entry ~ Familymart_existed + pop, family = binomial(link = "logit"), data = df)
+out_logit <- glm( Familymart_Entry ~ Familymart_existed + pop, family = binomial(link = "logit"), data = df)
 ```
 
 ### 解釈
+
+推定結果を出力する時にはいつも通り`summary()`です。
+
 ```{r DC logit result}
 summary(out_logit)
 ```
 
+離散選択モデルのポイントとして、結果を解釈する際にパラメータの値をそのまま使うことが出来ません。その代わりに、いくつか係数を解釈する際に使われる項目がありますが、ここでは平均限界効果を紹介します。この指標は、ある説明変数を1単位増やした際に、確率が平均的にどの程度変化するのかを表すものです。ライブラリ`margins`を使えば、一瞬で出力されます。
 
 ```{r margins logit 0, results='hide'}
 library(margins)
 ```
+
+既存店舗が1店舗増えることで、参入確率は4.6%ほど下がる傾向にあるみたいです。仮説は検証されませんでしたね。
 
 ```{r margins logit 1}
 summary(margins(out_logit))
 ```
 
 ### プロビットモデル
+プロビットモデルもロジットモデルとほぼ同じです。唯一違うのは`family = binominal(link = "probit")`と指定して、プロビットモデルで推定することを明示します。
 
 ```{r DC probit 1}
-out_probit = glm( Familymart_Entry ~ Familymart_existed + pop, family = binomial(link = "probit"), data = df)
+out_probit <- glm( Familymart_Entry ~ Familymart_existed + pop, family = binomial(link = "probit"), data = df)
 ```
 
 ### 解釈
+こちらも同じです。
 ```{r DC probit result}
 summary(out_probit)
 ```
 
+こちらも同じです。少し確率は下がったようです。
 ```{r margins probit 1}
 summary(margins(out_probit))
 ```
 
 ## 推定結果の整理
+ロジットモデルとプロビットモデルの結果を比較してみます
 ```{r DC stargazer 0, results='hide'}
 library(stargazer)
 ```
 
-
+ちなみに、OLS推定でも推定自体は出来ます。線形確率モデルとも呼ばれたりします。
 ```{r DC ols}
 out_OLS <- lm(Familymart_Entry ~ Familymart_existed + pop, data = df)
 ```
 
+ロジットモデルとプロビットモデルとで正負は一致しています。
+
 ```{r DC result sum}
 stargazer(out_OLS, out_logit, out_probit, type="text")
 ```
+
+
+

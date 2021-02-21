@@ -1,18 +1,36 @@
 
 # 操作変数法
 
+操作変数自体の説明は[こちら](https://speakerdeck.com/tom01/rdeji-liang-jing-ji-xue-number-4-cao-zuo-bian-shu-fa)からどうぞ。
+
 ## 検証する仮説
 
-
+「追加的に子供を出産することで、出産後の労働時間が減少するのではないか？」という仮説を検証していきます。出産が労働時間に与える影響がテーマです。Angrist and Evans(1998)の再現です。
 
 ## データの読み込み
+今回使用するデータはU.S. census (1980年)の既婚女性に関するもので、22~ 35歳の2人以上の子供を持つ既婚女性,計254,654人が対象です。
 
 ```{r IV 1}
 df <- read.csv('data/labsup_edited.csv')
 head(df)
 ```
+○変数の説明
+
+|  変数名  |  説明  |
+| ---- | ---- |
+|  morekids  |  子供が3人以上いる母親なら1をとるダミー変数  |
+|  boy1st  |  最初の子供が男なら1をとるダミー変数  |
+|  boy2nd  |  2番目の子供が男なら1をとるダミー変数  |
+|  samesex  |  最初と2番目の子供の性別が同じなら1をとるダミー変数  |
+|  agem1  |  母親が初めて出産した時の年齢  |
+|  black  |  母親が黒人なら1をとるダミー変数  |
+|  hispan  |  母親がヒスパニック系なら1をとるダミー変数  |
+|  othrace  | 母親が黒人・ヒスパニック系以外なら1をとるダミー変数   |
+|  weeksm1  | 1979年の母親の週の平均労働時間   |
 
 ## データの把握
+データの特徴を把握していきます。欠損値は特になさそうです。`weeksm1`を見ると、働いてない女性も結構いますね。
+
 ```{r IV stat sum}
 summary(df)
 ```
@@ -20,42 +38,70 @@ summary(df)
 
 ## 推定
 
+今回興味のある変数は`morekids`です。このパラメータが負であれば、仮説は検証されます。このままOLS推定してもいいですが、その場合には内生性が生じている状況での推定になります。具体的には、働きたくない人（労働時間を短い人）ほど、子供を多く出産するという逆の因果性が考えられます。この逆の因果性は需要関数を推定する際にも生じうる問題です。そこで、今回は操作変数法という手法で、この逆の因果性に対処してみます。
+
 ### 計量経済学モデル
 
-$$ 
-weeksm1_{i} = \alpha + \beta_{1}\times morekids_{i}+ \beta_{2}\times agem1_{i}+ \beta_{3}\times black_{i}+ \beta_{4}\times hispan_{i} + \beta_{5}\times othrace_{i} + u_{i} 
-$$
-
+1段階目
 $$ 
 morekids_{i} = \alpha + \beta_{1}\times samesex_{i}+ \beta_{2}\times agem1_{i}+ \beta_{3}\times black_{i}+ \beta_{4}\times hispan_{i} + \beta_{5}\times othrace_{i} + u_{i} 
 $$
 
+2段階目
+$$ 
+weeksm1_{i} = \alpha + \beta_{1}\times \widehat{morekids_{i}}+ \beta_{2}\times agem1_{i}+ \beta_{3}\times black_{i}+ \beta_{4}\times hispan_{i} + \beta_{5}\times othrace_{i} + u_{i} 
+$$
+
+
+### 操作変数の確認
+なんでも操作変数に出来る訳ではありません。*妥当性*と*外生性*の2つを満たしている必要があります。
+
+- *妥当性*
+ - 内生変数(morekids)と相関がある.
+ - 同性の子供がいる親は追加的な子供を欲しがる傾向にある
+- *外生性*
+ - 被説明変数(weeksm1)と相関がない.
+ - 子供の性別は直接的に労働時間に影響は与えない
+
+このうち*妥当性*に関しては、1段階の推定でF値が10を超えるかどうかで定量的に判断出来ます。（あくまで経験則ですが…）今回の場合で実際に推定してみると、`samesex`は`morekids`に統計的に有意な影響をあたえており、F値も10を超えているので妥当性に関しては満たされていそうです。*外生性*に関しては言葉を尽くすのみです。
+
+```{r IV first stage}
+out_1st <- lm(morekids ~ samesex + agem1 + black + hispan + othrace , data = df)
+summary(out_1st)
+```
+
 ### 推定
+操作変数の妥当性・外生性の吟味を終えたので、実際に操作変数法で推定してみましょう！`AER`パッケージに入っている`ivreg`という関数を使います。初めて`AER`パッケージを使う人は事前に`install.packages("AER")`を実行してください。
+
 ```{r IV stat 0, results='hide'}
 library(AER)
 ```
 
-
+`ivreg(被説明変数 ~ 内生変数 + その他説明変数 | 操作変数 + その他説明変数, data = データの名前)`このように書きます。今回は推定結果を`out_iv`に格納します。
 
 ```{r IV stat 1}
 out_iv <- ivreg( weeksm1 ~ morekids + agem1 + black + hispan + othrace  |  samesex + agem1 + black + hispan + othrace, data = df)
 ```
 
 ### 解釈
+結果をみる時は、いつも通り`summary()`です。2段階目の推定結果が出力されます。基本的にはOLS推定と見方は同じです。追加的に子供が1人増えると、5.8時ほど週の労働時間が減少する傾向にあるみたいです。
 ```{r multi OLS result IV}
 summary(out_iv)
 ```
 
 ## 推定結果の整理
-```{r IV stargazer 0, results='hide'}
-library(stargazer)
-```
-
+さて、操作変数法を使ったことでOLS推定での結果からどのように変化をしたか検討してみます。OLS推定だと、働きたくない人（労働時間を短い人）ほど、子供を多く出産する逆の因果性による効果もパラメータの値に含まれてしまうので、`morekids`のパラメータの値は大きく推定されると予想出来ます。
 
 ```{r IV ols}
 out_OLS <- lm(weeksm1 ~ morekids + agem1 + black + hispan + othrace , data = df)
 ```
 
+複数の推定結果を比較する際には、この`stargazer`というライブラリが便利です。
+```{r IV stargazer 0, results='hide'}
+library(stargazer)
+```
+
+推定結果を見てみると、確かに操作変数法を使ったことで、少しパラメータの値が小さくなっていることがわかります。`stargazer`のより詳しい説明は[こちら](https://www.jakeruss.com/cheatsheets/stargazer/)です。
 ```{r IV result sum}
 stargazer(out_OLS, out_iv, type="text")
 ```
