@@ -167,8 +167,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="2.3" data-path="IV.html"><a href="IV.html#データの把握-1"><i class="fa fa-check"></i><b>2.3</b> データの把握</a></li>
 <li class="chapter" data-level="2.4" data-path="IV.html"><a href="IV.html#推定-2"><i class="fa fa-check"></i><b>2.4</b> 推定</a><ul>
 <li class="chapter" data-level="2.4.1" data-path="IV.html"><a href="IV.html#計量経済学モデル-2"><i class="fa fa-check"></i><b>2.4.1</b> 計量経済学モデル</a></li>
-<li class="chapter" data-level="2.4.2" data-path="IV.html"><a href="IV.html#推定-3"><i class="fa fa-check"></i><b>2.4.2</b> 推定</a></li>
-<li class="chapter" data-level="2.4.3" data-path="IV.html"><a href="IV.html#解釈-2"><i class="fa fa-check"></i><b>2.4.3</b> 解釈</a></li>
+<li class="chapter" data-level="2.4.2" data-path="IV.html"><a href="IV.html#操作変数の確認"><i class="fa fa-check"></i><b>2.4.2</b> 操作変数の確認</a></li>
+<li class="chapter" data-level="2.4.3" data-path="IV.html"><a href="IV.html#推定-3"><i class="fa fa-check"></i><b>2.4.3</b> 推定</a></li>
+<li class="chapter" data-level="2.4.4" data-path="IV.html"><a href="IV.html#解釈-2"><i class="fa fa-check"></i><b>2.4.4</b> 解釈</a></li>
 </ul></li>
 <li class="chapter" data-level="2.5" data-path="IV.html"><a href="IV.html#推定結果の整理"><i class="fa fa-check"></i><b>2.5</b> 推定結果の整理</a></li>
 </ul></li>
@@ -231,9 +232,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="データの読み込み-3" class="section level2">
 <h2><span class="header-section-number">4.2</span> データの読み込み</h2>
-<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb71-1"><a href="PANEL.html#cb71-1"></a><span class="kw">library</span>(openxlsx)</span></code></pre></div>
-<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="PANEL.html#cb72-1"></a>df &lt;-<span class="st"> </span><span class="kw">read.xlsx</span>(<span class="st">&quot;data/airfare.xlsx&quot;</span>)</span>
-<span id="cb72-2"><a href="PANEL.html#cb72-2"></a><span class="kw">head</span>(df)</span></code></pre></div>
+<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb61-1"><a href="PANEL.html#cb61-1"></a><span class="kw">library</span>(openxlsx)</span></code></pre></div>
+<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="PANEL.html#cb62-1"></a>df &lt;-<span class="st"> </span><span class="kw">read.xlsx</span>(<span class="st">&quot;data/airfare.xlsx&quot;</span>)</span>
+<span id="cb62-2"><a href="PANEL.html#cb62-2"></a><span class="kw">head</span>(df)</span></code></pre></div>
 <pre><code>##   year      origin        destin dist passen fare bmktshr
 ## 1 1997 &quot;AKRON, OH&quot; &quot;ATLANTA, GA&quot;  528    152  106  0.8386
 ## 2 1998 &quot;AKRON, OH&quot; &quot;ATLANTA, GA&quot;  528    265  106  0.8133
@@ -253,7 +254,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h2><span class="header-section-number">4.3</span> データの把握</h2>
 <div id="基本統計量-1" class="section level3">
 <h3><span class="header-section-number">4.3.1</span> 基本統計量</h3>
-<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb74-1"><a href="PANEL.html#cb74-1"></a><span class="kw">summary</span>(df)</span></code></pre></div>
+<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="PANEL.html#cb64-1"></a><span class="kw">summary</span>(df)</span></code></pre></div>
 <pre><code>##       year         origin             destin         
 ##  Min.   :1997   Length:4596        Length:4596       
 ##  1st Qu.:1998   Class :character   Class :character  
@@ -278,20 +279,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="データの可視化" class="section level3">
 <h3><span class="header-section-number">4.3.2</span> データの可視化</h3>
-<div class="sourceCode" id="cb76"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb76-1"><a href="PANEL.html#cb76-1"></a><span class="kw">library</span>(ggpubr)</span></code></pre></div>
-<pre><code>## Loading required package: ggplot2</code></pre>
-<pre><code>## 
-## Attaching package: &#39;ggplot2&#39;</code></pre>
-<pre><code>## The following objects are masked from &#39;package:psych&#39;:
-## 
-##     %+%, alpha</code></pre>
-<div class="sourceCode" id="cb80"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb80-1"><a href="PANEL.html#cb80-1"></a><span class="kw">gghistogram</span>(df, <span class="dt">x =</span> <span class="st">&quot;fare&quot;</span>, <span class="dt">bins =</span> <span class="dv">30</span>, <span class="dt">title =</span> <span class="st">&quot;Histogram of fare&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="PANEL.html#cb66-1"></a><span class="kw">library</span>(ggpubr)</span></code></pre></div>
+<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb67-1"><a href="PANEL.html#cb67-1"></a><span class="kw">gghistogram</span>(df, <span class="dt">x =</span> <span class="st">&quot;fare&quot;</span>, <span class="dt">bins =</span> <span class="dv">30</span>, <span class="dt">title =</span> <span class="st">&quot;Histogram of fare&quot;</span>)</span></code></pre></div>
 <p><img src="R-Intro-Econometrics_files/figure-html/panel%20visual-1.png" width="672" /></p>
 </div>
 <div id="対数変換" class="section level3">
 <h3><span class="header-section-number">4.3.3</span> 対数変換</h3>
-<div class="sourceCode" id="cb81"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb81-1"><a href="PANEL.html#cb81-1"></a>df<span class="op">$</span>ln_fare &lt;-<span class="st"> </span><span class="kw">log</span>(df<span class="op">$</span>fare)</span>
-<span id="cb81-2"><a href="PANEL.html#cb81-2"></a><span class="kw">gghistogram</span>(df, <span class="dt">x =</span> <span class="st">&quot;ln_fare&quot;</span>, <span class="dt">bins =</span> <span class="dv">30</span>, <span class="dt">title =</span> <span class="st">&quot;Histogram of ln_fare&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb68-1"><a href="PANEL.html#cb68-1"></a>df<span class="op">$</span>ln_fare &lt;-<span class="st"> </span><span class="kw">log</span>(df<span class="op">$</span>fare)</span>
+<span id="cb68-2"><a href="PANEL.html#cb68-2"></a><span class="kw">gghistogram</span>(df, <span class="dt">x =</span> <span class="st">&quot;ln_fare&quot;</span>, <span class="dt">bins =</span> <span class="dv">30</span>, <span class="dt">title =</span> <span class="st">&quot;Histogram of ln_fare&quot;</span>)</span></code></pre></div>
 <p><img src="R-Intro-Econometrics_files/figure-html/panel%20log-1.png" width="672" /></p>
 </div>
 </div>
@@ -305,13 +300,13 @@ ln\_fare_{i,t} = \alpha + \beta_{1}\times bmktshr_{i,t}+ \beta_{2}\times dist_{i
 </div>
 <div id="準備" class="section level3">
 <h3><span class="header-section-number">4.4.2</span> 準備</h3>
-<div class="sourceCode" id="cb82"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb82-1"><a href="PANEL.html#cb82-1"></a><span class="kw">library</span>(plm)</span></code></pre></div>
-<div class="sourceCode" id="cb83"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb83-1"><a href="PANEL.html#cb83-1"></a>df_panel &lt;-<span class="st"> </span><span class="kw">pdata.frame</span>(df, <span class="dt">index =</span> <span class="kw">c</span>(<span class="st">&#39;ID&#39;</span>, <span class="st">&#39;year&#39;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb69-1"><a href="PANEL.html#cb69-1"></a><span class="kw">library</span>(plm)</span></code></pre></div>
+<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb70-1"><a href="PANEL.html#cb70-1"></a>df_panel &lt;-<span class="st"> </span><span class="kw">pdata.frame</span>(df, <span class="dt">index =</span> <span class="kw">c</span>(<span class="st">&#39;ID&#39;</span>, <span class="st">&#39;year&#39;</span>))</span></code></pre></div>
 </div>
 <div id="変量効果モデル" class="section level3">
 <h3><span class="header-section-number">4.4.3</span> 変量効果モデル</h3>
-<div class="sourceCode" id="cb84"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb84-1"><a href="PANEL.html#cb84-1"></a>out_random &lt;-<span class="st"> </span><span class="kw">plm</span>(ln_fare <span class="op">~</span><span class="st"> </span>bmktshr<span class="op">+</span><span class="st"> </span>dist <span class="op">+</span><span class="st"> </span>passen , <span class="dt">data =</span> df_panel, <span class="dt">model =</span> <span class="st">&quot;random&quot;</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb85"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb85-1"><a href="PANEL.html#cb85-1"></a><span class="kw">summary</span>(out_random)</span></code></pre></div>
+<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb71-1"><a href="PANEL.html#cb71-1"></a>out_random &lt;-<span class="st"> </span><span class="kw">plm</span>(ln_fare <span class="op">~</span><span class="st"> </span>bmktshr<span class="op">+</span><span class="st"> </span>dist <span class="op">+</span><span class="st"> </span>passen , <span class="dt">data =</span> df_panel, <span class="dt">model =</span> <span class="st">&quot;random&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="PANEL.html#cb72-1"></a><span class="kw">summary</span>(out_random)</span></code></pre></div>
 <pre><code>## Oneway (individual) effect Random Effect Model 
 ##    (Swamy-Arora&#39;s transformation)
 ## 
@@ -351,8 +346,8 @@ ln\_fare_{i,t} = \alpha + \beta_{1}\times bmktshr_{i,t}+ \beta_{2}\times dist_{i
 </div>
 <div id="固定効果モデル" class="section level3">
 <h3><span class="header-section-number">4.4.4</span> 固定効果モデル</h3>
-<div class="sourceCode" id="cb87"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb87-1"><a href="PANEL.html#cb87-1"></a>out_fix &lt;-<span class="st"> </span><span class="kw">plm</span>(ln_fare <span class="op">~</span><span class="st"> </span>bmktshr<span class="op">+</span><span class="st"> </span>dist <span class="op">+</span><span class="st"> </span>passen , <span class="dt">data =</span> df_panel, <span class="dt">model =</span> <span class="st">&quot;within&quot;</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb88"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb88-1"><a href="PANEL.html#cb88-1"></a><span class="kw">summary</span>(out_fix)</span></code></pre></div>
+<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb74-1"><a href="PANEL.html#cb74-1"></a>out_fix &lt;-<span class="st"> </span><span class="kw">plm</span>(ln_fare <span class="op">~</span><span class="st"> </span>bmktshr<span class="op">+</span><span class="st"> </span>dist <span class="op">+</span><span class="st"> </span>passen , <span class="dt">data =</span> df_panel, <span class="dt">model =</span> <span class="st">&quot;within&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb75-1"><a href="PANEL.html#cb75-1"></a><span class="kw">summary</span>(out_fix)</span></code></pre></div>
 <pre><code>## Oneway (individual) effect Within Model
 ## 
 ## Call:
@@ -381,12 +376,12 @@ ln\_fare_{i,t} = \alpha + \beta_{1}\times bmktshr_{i,t}+ \beta_{2}\times dist_{i
 ## Adj. R-Squared: -0.20234
 ## F-statistic: 188.365 on 2 and 3445 DF, p-value: &lt; 2.22e-16</code></pre>
 <p>固定効果自体はfixefで取り出せます。</p>
-<div class="sourceCode" id="cb90"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb90-1"><a href="PANEL.html#cb90-1"></a><span class="kw">mean</span>(<span class="kw">fixef</span>(out_fix))</span></code></pre></div>
+<div class="sourceCode" id="cb77"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb77-1"><a href="PANEL.html#cb77-1"></a><span class="kw">mean</span>(<span class="kw">fixef</span>(out_fix))</span></code></pre></div>
 <pre><code>## [1] 5.268405</code></pre>
 </div>
 <div id="ハウスマン検定" class="section level3">
 <h3><span class="header-section-number">4.4.5</span> ハウスマン検定</h3>
-<div class="sourceCode" id="cb92"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb92-1"><a href="PANEL.html#cb92-1"></a><span class="kw">phtest</span>(out_fix, out_random)</span></code></pre></div>
+<div class="sourceCode" id="cb79"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb79-1"><a href="PANEL.html#cb79-1"></a><span class="kw">phtest</span>(out_fix, out_random)</span></code></pre></div>
 <pre><code>## 
 ##  Hausman Test
 ## 
@@ -399,8 +394,8 @@ ln\_fare_{i,t} = \alpha + \beta_{1}\times bmktshr_{i,t}+ \beta_{2}\times dist_{i
 <p><span class="math display">\[ 
 ln\_fare_{i,t} = \alpha + \beta_{1}\times bmktshr_{i,t}+ \beta_{2}\times dist_{i,t}+ \beta_{3}\times passen_{i,t}+ F_i +y\_1997_{i, t} +y\_1998_{i, t} +y\_1999_{i, t} + u_{i,t} 
 \]</span></p>
-<div class="sourceCode" id="cb94"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb94-1"><a href="PANEL.html#cb94-1"></a>out_fix_time &lt;-<span class="st"> </span><span class="kw">plm</span>(ln_fare <span class="op">~</span><span class="st"> </span>bmktshr<span class="op">+</span><span class="st"> </span>dist <span class="op">+</span><span class="st"> </span>passen , <span class="dt">data =</span> df_panel, <span class="dt">effect =</span> <span class="st">&quot;twoways&quot;</span>, <span class="dt">model =</span> <span class="st">&quot;within&quot;</span>)</span>
-<span id="cb94-2"><a href="PANEL.html#cb94-2"></a><span class="kw">summary</span>(out_fix_time)</span></code></pre></div>
+<div class="sourceCode" id="cb81"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb81-1"><a href="PANEL.html#cb81-1"></a>out_fix_time &lt;-<span class="st"> </span><span class="kw">plm</span>(ln_fare <span class="op">~</span><span class="st"> </span>bmktshr<span class="op">+</span><span class="st"> </span>dist <span class="op">+</span><span class="st"> </span>passen , <span class="dt">data =</span> df_panel, <span class="dt">effect =</span> <span class="st">&quot;twoways&quot;</span>, <span class="dt">model =</span> <span class="st">&quot;within&quot;</span>)</span>
+<span id="cb81-2"><a href="PANEL.html#cb81-2"></a><span class="kw">summary</span>(out_fix_time)</span></code></pre></div>
 <pre><code>## Twoways effects Within Model
 ## 
 ## Call:
@@ -430,9 +425,9 @@ ln\_fare_{i,t} = \alpha + \beta_{1}\times bmktshr_{i,t}+ \beta_{2}\times dist_{i
 </div>
 <div id="推定結果の整理-2" class="section level2">
 <h2><span class="header-section-number">4.5</span> 推定結果の整理</h2>
-<div class="sourceCode" id="cb96"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb96-1"><a href="PANEL.html#cb96-1"></a><span class="kw">library</span>(stargazer)</span></code></pre></div>
-<div class="sourceCode" id="cb97"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb97-1"><a href="PANEL.html#cb97-1"></a>out_OLS &lt;-<span class="st"> </span><span class="kw">lm</span>(ln_fare <span class="op">~</span><span class="st"> </span>bmktshr<span class="op">+</span><span class="st"> </span>dist <span class="op">+</span><span class="st"> </span>passen , <span class="dt">data =</span> df)</span></code></pre></div>
-<div class="sourceCode" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb98-1"><a href="PANEL.html#cb98-1"></a><span class="kw">stargazer</span>(out_OLS, out_fix, out_random, out_fix_time, <span class="dt">type=</span><span class="st">&quot;text&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb83"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb83-1"><a href="PANEL.html#cb83-1"></a><span class="kw">library</span>(stargazer)</span></code></pre></div>
+<div class="sourceCode" id="cb84"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb84-1"><a href="PANEL.html#cb84-1"></a>out_OLS &lt;-<span class="st"> </span><span class="kw">lm</span>(ln_fare <span class="op">~</span><span class="st"> </span>bmktshr<span class="op">+</span><span class="st"> </span>dist <span class="op">+</span><span class="st"> </span>passen , <span class="dt">data =</span> df)</span></code></pre></div>
+<div class="sourceCode" id="cb85"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb85-1"><a href="PANEL.html#cb85-1"></a><span class="kw">stargazer</span>(out_OLS, out_fix, out_random, out_fix_time, <span class="dt">type=</span><span class="st">&quot;text&quot;</span>)</span></code></pre></div>
 <pre><code>## 
 ## ================================================================================================================
 ##                                                         Dependent variable:                                     

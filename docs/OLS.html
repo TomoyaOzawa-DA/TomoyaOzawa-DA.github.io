@@ -167,8 +167,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="2.3" data-path="IV.html"><a href="IV.html#データの把握-1"><i class="fa fa-check"></i><b>2.3</b> データの把握</a></li>
 <li class="chapter" data-level="2.4" data-path="IV.html"><a href="IV.html#推定-2"><i class="fa fa-check"></i><b>2.4</b> 推定</a><ul>
 <li class="chapter" data-level="2.4.1" data-path="IV.html"><a href="IV.html#計量経済学モデル-2"><i class="fa fa-check"></i><b>2.4.1</b> 計量経済学モデル</a></li>
-<li class="chapter" data-level="2.4.2" data-path="IV.html"><a href="IV.html#推定-3"><i class="fa fa-check"></i><b>2.4.2</b> 推定</a></li>
-<li class="chapter" data-level="2.4.3" data-path="IV.html"><a href="IV.html#解釈-2"><i class="fa fa-check"></i><b>2.4.3</b> 解釈</a></li>
+<li class="chapter" data-level="2.4.2" data-path="IV.html"><a href="IV.html#操作変数の確認"><i class="fa fa-check"></i><b>2.4.2</b> 操作変数の確認</a></li>
+<li class="chapter" data-level="2.4.3" data-path="IV.html"><a href="IV.html#推定-3"><i class="fa fa-check"></i><b>2.4.3</b> 推定</a></li>
+<li class="chapter" data-level="2.4.4" data-path="IV.html"><a href="IV.html#解釈-2"><i class="fa fa-check"></i><b>2.4.4</b> 解釈</a></li>
 </ul></li>
 <li class="chapter" data-level="2.5" data-path="IV.html"><a href="IV.html#推定結果の整理"><i class="fa fa-check"></i><b>2.5</b> 推定結果の整理</a></li>
 </ul></li>
@@ -553,13 +554,7 @@ hourly\_wage_{i} = \alpha + \beta_{1}\times education_{i}+ \beta_{2}\times age_{
 <h3><span class="header-section-number">1.6.2</span> VIF統計量</h3>
 <p>VIF統計量は多重共線性の疑いを定量化できる指標です。10以上の値がでたら怪しんだ方が良いみたいです。理想は2以下らしいです。</p>
 <div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="OLS.html#cb25-1"></a><span class="kw">library</span>(car)</span></code></pre></div>
-<pre><code>## Loading required package: carData</code></pre>
-<pre><code>## 
-## Attaching package: &#39;car&#39;</code></pre>
-<pre><code>## The following object is masked from &#39;package:psych&#39;:
-## 
-##     logit</code></pre>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="OLS.html#cb29-1"></a><span class="kw">vif</span>(out_multi_regress)</span></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="OLS.html#cb26-1"></a><span class="kw">vif</span>(out_multi_regress)</span></code></pre></div>
 <pre><code>##     education           age working_dummy    mother_edu 
 ##      1.364894      1.443657      1.058935      1.632561 
 ##    father_edu   number_kids 
