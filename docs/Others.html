@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 3 操作変数法 | Rで計量経済学</title>
-  <meta name="description" content="Chapter 3 操作変数法 | Rで計量経済学" />
+  <title>Chapter 6 参考リンク | Rで計量経済学</title>
+  <meta name="description" content="Chapter 6 参考リンク | Rで計量経済学" />
   <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 3 操作変数法 | Rで計量経済学" />
+  <meta property="og:title" content="Chapter 6 参考リンク | Rで計量経済学" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 3 操作変数法 | Rで計量経済学" />
+  <meta name="twitter:title" content="Chapter 6 参考リンク | Rで計量経済学" />
   
   
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="OLS.html"/>
-<link rel="next" href="DC.html"/>
+<link rel="prev" href="PANEL.html"/>
+
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -245,252 +245,62 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="操作変数法" class="section level1">
-<h1><span class="header-section-number">Chapter 3</span> 操作変数法</h1>
-<p>操作変数自体の説明は<a href="https://speakerdeck.com/tom01/rdeji-liang-jing-ji-xue-number-4-cao-zuo-bian-shu-fa">こちら</a>からどうぞ。</p>
-<div id="検証する仮説-1" class="section level2">
-<h2><span class="header-section-number">3.1</span> 検証する仮説</h2>
-<p>「追加的に子供を出産することで、出産後の労働時間が減少するのではないか？」という仮説を検証していきます。出産が労働時間に与える影響がテーマです。Angrist and Evans(1998)の再現です。</p>
+<div id="参考リンク" class="section level1">
+<h1><span class="header-section-number">Chapter 6</span> 参考リンク</h1>
+<div id="web-スクレイピング" class="section level2">
+<h2><span class="header-section-number">6.1</span> Web スクレイピング</h2>
+<p><a href="https://qiita.com/Tom-tom-tom/items/998e8282d013fb218490">RでのWeb スクレイピング入門</a>
+- Rを使ってWeb上のデータを収集する方法を解説した記事です。
+- 後述の地理情報講座とリンクしています。</p>
 </div>
-<div id="データの読み込み-1" class="section level2">
-<h2><span class="header-section-number">3.2</span> データの読み込み</h2>
-<p>今回使用するデータはU.S. census (1980年)の既婚女性に関するもので、22~ 35歳の2人以上の子供を持つ既婚女性,計254,654人が対象です。</p>
-<div class="sourceCode" id="cb94"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb94-1"><a href="IV.html#cb94-1"></a>df &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&#39;data/labsup_edited.csv&#39;</span>)</span>
-<span id="cb94-2"><a href="IV.html#cb94-2"></a><span class="kw">head</span>(df)</span></code></pre></div>
-<pre><code>##   morekids boy1st boy2nd samesex agem1 black hispan
-## 1        0      1      0       0    27     0      0
-## 2        0      0      1       0    30     0      0
-## 3        0      1      0       0    27     0      0
-## 4        0      1      0       0    35     1      0
-## 5        0      0      0       1    30     0      0
-## 6        0      1      0       0    26     0      0
-##   othrace weeksm1
-## 1       0       0
-## 2       0      30
-## 3       0       0
-## 4       0       0
-## 5       0      22
-## 6       0      40</code></pre>
-<p>○変数の説明</p>
-<table>
-<thead>
-<tr class="header">
-<th>変数名</th>
-<th>説明</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>morekids</td>
-<td>子供が3人以上いる母親なら1をとるダミー変数</td>
-</tr>
-<tr class="even">
-<td>boy1st</td>
-<td>最初の子供が男なら1をとるダミー変数</td>
-</tr>
-<tr class="odd">
-<td>boy2nd</td>
-<td>2番目の子供が男なら1をとるダミー変数</td>
-</tr>
-<tr class="even">
-<td>samesex</td>
-<td>最初と2番目の子供の性別が同じなら1をとるダミー変数</td>
-</tr>
-<tr class="odd">
-<td>agem1</td>
-<td>母親が初めて出産した時の年齢</td>
-</tr>
-<tr class="even">
-<td>black</td>
-<td>母親が黒人なら1をとるダミー変数</td>
-</tr>
-<tr class="odd">
-<td>hispan</td>
-<td>母親がヒスパニック系なら1をとるダミー変数</td>
-</tr>
-<tr class="even">
-<td>othrace</td>
-<td>母親が黒人・ヒスパニック系以外なら1をとるダミー変数</td>
-</tr>
-<tr class="odd">
-<td>weeksm1</td>
-<td>1979年の母親の週の平均労働時間</td>
-</tr>
-</tbody>
-</table>
+<div id="地理情報講座" class="section level2">
+<h2><span class="header-section-number">6.2</span> 地理情報講座</h2>
+<p><a href="https://qiita.com/Tom-tom-tom/items/e651b2afcc9c376174ae">【地理情報講座#1】Rでのジオコーディング入門</a>
+- ジオコーディング（住所を緯度経度に変換する）に関して解説した記事です。
+<a href="https://qiita.com/Tom-tom-tom/items/03d994fdc0a3a0998c10">【地理情報講座#2】Rでのメッシュ統計データ入門</a>
+- メッシュ統計データの使い方を解説した記事です。
+<a href="https://qiita.com/Tom-tom-tom/items/7aa6d2b7a5fea915dd93">【地理情報講座#3】Rでの距離計算入門</a>
+- 市場競争度の代替指標として使われる店舗間の距離をどう計算するかについて解説した記事です。</p>
 </div>
-<div id="データの把握-1" class="section level2">
-<h2><span class="header-section-number">3.3</span> データの把握</h2>
-<p>データの特徴を把握していきます。欠損値は特になさそうです。<code>weeksm1</code>を見ると、働いてない女性も結構いますね。</p>
-<div class="sourceCode" id="cb96"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb96-1"><a href="IV.html#cb96-1"></a><span class="kw">summary</span>(df)</span></code></pre></div>
-<pre><code>##     morekids          boy1st           boy2nd      
-##  Min.   :0.0000   Min.   :0.0000   Min.   :0.0000  
-##  1st Qu.:0.0000   1st Qu.:0.0000   1st Qu.:0.0000  
-##  Median :0.0000   Median :1.0000   Median :1.0000  
-##  Mean   :0.3806   Mean   :0.5144   Mean   :0.5126  
-##  3rd Qu.:1.0000   3rd Qu.:1.0000   3rd Qu.:1.0000  
-##  Max.   :1.0000   Max.   :1.0000   Max.   :1.0000  
-##     samesex           agem1           black        
-##  Min.   :0.0000   Min.   :21.00   Min.   :0.00000  
-##  1st Qu.:0.0000   1st Qu.:28.00   1st Qu.:0.00000  
-##  Median :1.0000   Median :31.00   Median :0.00000  
-##  Mean   :0.5056   Mean   :30.39   Mean   :0.05166  
-##  3rd Qu.:1.0000   3rd Qu.:33.00   3rd Qu.:0.00000  
-##  Max.   :1.0000   Max.   :35.00   Max.   :1.00000  
-##      hispan           othrace           weeksm1     
-##  Min.   :0.00000   Min.   :0.00000   Min.   : 0.00  
-##  1st Qu.:0.00000   1st Qu.:0.00000   1st Qu.: 0.00  
-##  Median :0.00000   Median :0.00000   Median : 5.00  
-##  Mean   :0.07421   Mean   :0.05634   Mean   :19.02  
-##  3rd Qu.:0.00000   3rd Qu.:0.00000   3rd Qu.:44.00  
-##  Max.   :1.00000   Max.   :1.00000   Max.   :52.00</code></pre>
+<div id="パネルデータ分析-1" class="section level2">
+<h2><span class="header-section-number">6.3</span> パネルデータ分析</h2>
+<p><a href="https://qiita.com/Tom-tom-tom/items/297a04affd8e3e10ea1d">Rでのパネルデータ加工</a>
+- 実証分析でよく使われるパネルデータの作り方が学べる記事です。</p>
 </div>
-<div id="推定-2" class="section level2">
-<h2><span class="header-section-number">3.4</span> 推定</h2>
-<p>今回興味のある変数は<code>morekids</code>です。このパラメータが負であれば、仮説は検証されます。このままOLS推定してもいいですが、その場合には内生性が生じている状況での推定になります。具体的には、働きたくない人（労働時間を短い人）ほど、子供を多く出産するという逆の因果性が考えられます。この逆の因果性は需要関数を推定する際にも生じうる問題です。そこで、今回は操作変数法という手法で、この逆の因果性に対処してみます。</p>
-<div id="計量経済学モデル-2" class="section level3">
-<h3><span class="header-section-number">3.4.1</span> 計量経済学モデル</h3>
-<p>1段階目
-<span class="math display">\[ 
-morekids_{i} = \alpha + \beta_{1}\times samesex_{i}+ \beta_{2}\times agem1_{i}+ \beta_{3}\times black_{i}+ \beta_{4}\times hispan_{i} + \beta_{5}\times othrace_{i} + u_{i} 
-\]</span></p>
-<p>2段階目
-<span class="math display">\[ 
-weeksm1_{i} = \alpha + \beta_{1}\times \widehat{morekids_{i}}+ \beta_{2}\times agem1_{i}+ \beta_{3}\times black_{i}+ \beta_{4}\times hispan_{i} + \beta_{5}\times othrace_{i} + u_{i} 
-\]</span></p>
+<div id="dplyr入門" class="section level2">
+<h2><span class="header-section-number">6.4</span> dplyr入門</h2>
+<p><code>dplyr</code>は実証分析の一番重要かつ時間のかかるパートであるデータ加工を簡単に直感的に行えるライブラリです。
+- <a href="https://www.jaysong.net/dplyr_intro/">dplyr入門 (新版)</a>
+- <a href="https://qiita.com/matsuou1/items/e995da273e3108e2338e">dplyrを使いこなす！基礎編</a>
+- <a href="https://kazutan.github.io/JSSP2018_spring/data_handling.html">データ操作 -kazutan on web</a></p>
 </div>
-<div id="操作変数の確認" class="section level3">
-<h3><span class="header-section-number">3.4.2</span> 操作変数の確認</h3>
-<p>なんでも操作変数に出来る訳ではありません。<em>妥当性</em>と<em>外生性</em>の2つを満たしている必要があります。</p>
-<ul>
-<li><em>妥当性</em></li>
-<li>内生変数(morekids)と相関がある.</li>
-<li>同性の子供がいる親は追加的な子供を欲しがる傾向にある</li>
-<li><em>外生性</em></li>
-<li>被説明変数(weeksm1)と相関がない.</li>
-<li>子供の性別は直接的に労働時間に影響は与えない</li>
-</ul>
-<p>このうち<em>妥当性</em>に関しては、1段階の推定でF値が10を超えるかどうかで定量的に判断出来ます。（あくまで経験則ですが…）今回の場合で実際に推定してみると、<code>samesex</code>は<code>morekids</code>に統計的に有意な影響をあたえており、F値も10を超えているので妥当性に関しては満たされていそうです。<em>外生性</em>に関しては言葉を尽くすのみです。</p>
-<div class="sourceCode" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb98-1"><a href="IV.html#cb98-1"></a>out_1st &lt;-<span class="st"> </span><span class="kw">lm</span>(morekids <span class="op">~</span><span class="st"> </span>samesex <span class="op">+</span><span class="st"> </span>agem1 <span class="op">+</span><span class="st"> </span>black <span class="op">+</span><span class="st"> </span>hispan <span class="op">+</span><span class="st"> </span>othrace , <span class="dt">data =</span> df)</span>
-<span id="cb98-2"><a href="IV.html#cb98-2"></a><span class="kw">summary</span>(out_1st)</span></code></pre></div>
-<pre><code>## 
-## Call:
-## lm(formula = morekids ~ samesex + agem1 + black + hispan + othrace, 
-##     data = df)
-## 
-## Residuals:
-##     Min      1Q  Median      3Q     Max 
-## -0.7189 -0.3869 -0.3068  0.5790  0.8164 
-## 
-## Coefficients:
-##               Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept) -0.1395319  0.0086985 -16.041  &lt; 2e-16 ***
-## samesex      0.0680081  0.0019010  35.774  &lt; 2e-16 ***
-## agem1        0.0153898  0.0002814  54.681  &lt; 2e-16 ***
-## black        0.1005237  0.0043058  23.346  &lt; 2e-16 ***
-## hispan       0.1512258  0.0040119  37.694  &lt; 2e-16 ***
-## othrace      0.0275069  0.0045537   6.041 1.54e-09 ***
-## ---
-## Signif. codes:  
-## 0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
-## 
-## Residual standard error: 0.4796 on 254648 degrees of freedom
-## Multiple R-squared:  0.02418,    Adjusted R-squared:  0.02416 
-## F-statistic:  1262 on 5 and 254648 DF,  p-value: &lt; 2.2e-16</code></pre>
+<div id="ggplot2-入門" class="section level2">
+<h2><span class="header-section-number">6.5</span> ggplot2 入門</h2>
+<p><code>ggplot2</code>はデータの可視化を簡単に直感的に行えるライブラリです。
+- <a href="https://kazutan.github.io/fukuokaR11/intro_ggplot2.html">ggplot2による可視化入門</a>
+- <a href="https://www.jaysong.net/ggplot_intro2/">ggplot2入門 [基礎編]</a></p>
 </div>
-<div id="推定-3" class="section level3">
-<h3><span class="header-section-number">3.4.3</span> 推定</h3>
-<p>操作変数の妥当性・外生性の吟味を終えたので、実際に操作変数法で推定してみましょう！<code>AER</code>パッケージに入っている<code>ivreg</code>という関数を使います。初めて<code>AER</code>パッケージを使う人は事前に<code>install.packages("AER")</code>を実行してください。</p>
-<div class="sourceCode" id="cb100"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb100-1"><a href="IV.html#cb100-1"></a><span class="kw">library</span>(AER)</span></code></pre></div>
-<pre><code>## Loading required package: lmtest</code></pre>
-<pre><code>## Loading required package: zoo</code></pre>
-<pre><code>## 
-## Attaching package: &#39;zoo&#39;</code></pre>
-<pre><code>## The following objects are masked from &#39;package:base&#39;:
-## 
-##     as.Date, as.Date.numeric</code></pre>
-<pre><code>## Loading required package: sandwich</code></pre>
-<pre><code>## Loading required package: survival</code></pre>
-<p><code>ivreg(被説明変数 ~ 内生変数 + その他説明変数 | 操作変数 + その他説明変数, data = データの名前)</code>このように書きます。今回は推定結果を<code>out_iv</code>に格納します。</p>
-<div class="sourceCode" id="cb107"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb107-1"><a href="IV.html#cb107-1"></a>out_iv &lt;-<span class="st"> </span><span class="kw">ivreg</span>( weeksm1 <span class="op">~</span><span class="st"> </span>morekids <span class="op">+</span><span class="st"> </span>agem1 <span class="op">+</span><span class="st"> </span>black <span class="op">+</span><span class="st"> </span>hispan <span class="op">+</span><span class="st"> </span>othrace  <span class="op">|</span><span class="st">  </span>samesex <span class="op">+</span><span class="st"> </span>agem1 <span class="op">+</span><span class="st"> </span>black <span class="op">+</span><span class="st"> </span>hispan <span class="op">+</span><span class="st"> </span>othrace, <span class="dt">data =</span> df)</span></code></pre></div>
+<div id="stringr入門" class="section level2">
+<h2><span class="header-section-number">6.6</span> stringr入門</h2>
+<p><code>stringr</code>は文字列の処理を簡単に直感的に行えるライブラリです。
+- <a href="https://kazutan.github.io/kazutanR/stringr-intro.html">stringrを使って文字列処理をやってみる</a></p>
 </div>
-<div id="解釈-2" class="section level3">
-<h3><span class="header-section-number">3.4.4</span> 解釈</h3>
-<p>結果をみる時は、いつも通り<code>summary()</code>です。2段階目の推定結果が出力されます。基本的にはOLS推定と見方は同じです。追加的に子供が1人増えると、5.8時ほど週の労働時間が減少する傾向にあるみたいです。</p>
-<div class="sourceCode" id="cb108"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb108-1"><a href="IV.html#cb108-1"></a><span class="kw">summary</span>(out_iv)</span></code></pre></div>
-<pre><code>## 
-## Call:
-## ivreg(formula = weeksm1 ~ morekids + agem1 + black + hispan + 
-##     othrace | samesex + agem1 + black + hispan + othrace, data = df)
-## 
-## Residuals:
-##    Min     1Q Median     3Q    Max 
-## -36.34 -17.66 -10.99  22.72  45.15 
-## 
-## Coefficients:
-##             Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept) -4.79189    0.40657 -11.786   &lt;2e-16 ***
-## morekids    -5.82105    1.24631  -4.671    3e-06 ***
-## agem1        0.83160    0.02289  36.336   &lt;2e-16 ***
-## black       11.62327    0.22893  50.772   &lt;2e-16 ***
-## hispan       0.40418    0.25986   1.555     0.12    
-## othrace      2.13096    0.20586  10.352   &lt;2e-16 ***
-## ---
-## Signif. codes:  
-## 0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
-## 
-## Residual standard error: 21.38 on 254648 degrees of freedom
-## Multiple R-Squared: 0.04368, Adjusted R-squared: 0.04366 
-## Wald test:  1335 on 5 and 254648 DF,  p-value: &lt; 2.2e-16</code></pre>
+<div id="lubridate" class="section level2">
+<h2><span class="header-section-number">6.7</span> lubridate</h2>
+<p><code>lubridate</code>は日付・時刻の処理を簡単に直感的に行えるライブラリです。
+- <a href="https://www.medi-08-data-06.work/entry/how_to_use_lubridate1902">日付・時刻処理の決定版！lubridateの使い方</a>
+- <a href="https://kazutan.github.io/SappoRoR8/01-lubridate.html">ログデータ処理で学ぶlubridate入門</a></p>
 </div>
-</div>
-<div id="推定結果の整理" class="section level2">
-<h2><span class="header-section-number">3.5</span> 推定結果の整理</h2>
-<p>さて、操作変数法を使ったことでOLS推定での結果からどのように変化をしたか検討してみます。OLS推定だと、働きたくない人（労働時間を短い人）ほど、子供を多く出産する逆の因果性による効果もパラメータの値に含まれてしまうので、<code>morekids</code>のパラメータの値は大きく推定されると予想出来ます。</p>
-<div class="sourceCode" id="cb110"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb110-1"><a href="IV.html#cb110-1"></a>out_OLS &lt;-<span class="st"> </span><span class="kw">lm</span>(weeksm1 <span class="op">~</span><span class="st"> </span>morekids <span class="op">+</span><span class="st"> </span>agem1 <span class="op">+</span><span class="st"> </span>black <span class="op">+</span><span class="st"> </span>hispan <span class="op">+</span><span class="st"> </span>othrace , <span class="dt">data =</span> df)</span></code></pre></div>
-<p>複数の推定結果を比較する際には、この<code>stargazer</code>というライブラリが便利です。</p>
-<div class="sourceCode" id="cb111"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb111-1"><a href="IV.html#cb111-1"></a><span class="kw">library</span>(stargazer)</span></code></pre></div>
-<pre><code>## 
-## Please cite as:</code></pre>
-<pre><code>##  Hlavac, Marek (2018). stargazer: Well-Formatted Regression and Summary Statistics Tables.</code></pre>
-<pre><code>##  R package version 5.2.2. https://CRAN.R-project.org/package=stargazer</code></pre>
-<p>推定結果を見てみると、確かに操作変数法を使ったことで、少しパラメータの値が小さくなっていることがわかります。<code>stargazer</code>のより詳しい説明は<a href="https://www.jakeruss.com/cheatsheets/stargazer/">こちら</a>です。</p>
-<div class="sourceCode" id="cb115"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb115-1"><a href="IV.html#cb115-1"></a><span class="kw">stargazer</span>(out_OLS, out_iv, <span class="dt">type=</span><span class="st">&quot;text&quot;</span>)</span></code></pre></div>
-<pre><code>## 
-## ============================================================================
-##                                              Dependent variable:            
-##                                   ------------------------------------------
-##                                                    weeksm1                  
-##                                                OLS              instrumental
-##                                                                   variable  
-##                                                (1)                  (2)     
-## ----------------------------------------------------------------------------
-## morekids                                    -6.230***            -5.821***  
-##                                              (0.088)              (1.246)   
-##                                                                             
-## agem1                                       0.838***              0.832***  
-##                                              (0.013)              (0.023)   
-##                                                                             
-## black                                       11.664***            11.623***  
-##                                              (0.192)              (0.229)   
-##                                                                             
-## hispan                                      0.466***               0.404    
-##                                              (0.179)              (0.260)   
-##                                                                             
-## othrace                                     2.142***              2.131***  
-##                                              (0.203)              (0.206)   
-##                                                                             
-## Constant                                    -4.835***            -4.792***  
-##                                              (0.385)              (0.407)   
-##                                                                             
-## ----------------------------------------------------------------------------
-## Observations                                 254,654              254,654   
-## R2                                            0.044                0.044    
-## Adjusted R2                                   0.044                0.044    
-## Residual Std. Error (df = 254648)            21.384                21.385   
-## F Statistic                       2,330.779*** (df = 5; 254648)             
-## ============================================================================
-## Note:                                            *p&lt;0.1; **p&lt;0.05; ***p&lt;0.01</code></pre>
+<div id="その他有用なサイト" class="section level2">
+<h2><span class="header-section-number">6.8</span> その他有用なサイト</h2>
+<p><a href="https://worldbank.github.io/r-econ-visual-library/RegressionCoef.html">R Econ Visual Library</a>
+- 世銀が公開しているデータ可視化のTips集です。
+<a href="https://design.tidyverse.org/">Tidyverse design guide</a>
+- <code>tidyverse</code>ライブラリ(<code>dplyr</code>, <code>ggplot2</code>などなど)の使い方に関するTips集です。
+<a href="https://r4ds.had.co.nz/">R for Data Science</a>
+- Rでデータサイエンスを体系的に学べる教材です。<code>tidyverse</code>も同時に学べます。
+<a href="https://sugiaki1989.gitbook.io/r-for-data-science-answers/">R for Data Science: Answers</a>
+- 上の本の答えです。</p>
 
 </div>
 </div>
@@ -499,8 +309,8 @@ weeksm1_{i} = \alpha + \beta_{1}\times \widehat{morekids_{i}}+ \beta_{2}\times a
           </div>
         </div>
       </div>
-<a href="OLS.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="DC.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="PANEL.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

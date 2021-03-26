@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 4 パネルデータ分析 | Rで計量経済学</title>
-  <meta name="description" content="Chapter 4 パネルデータ分析 | Rで計量経済学" />
+  <title>Chapter 5 パネルデータ分析 | Rで計量経済学</title>
+  <meta name="description" content="Chapter 5 パネルデータ分析 | Rで計量経済学" />
   <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 4 パネルデータ分析 | Rで計量経済学" />
+  <meta property="og:title" content="Chapter 5 パネルデータ分析 | Rで計量経済学" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 4 パネルデータ分析 | Rで計量経済学" />
+  <meta name="twitter:title" content="Chapter 5 パネルデータ分析 | Rで計量経済学" />
   
   
   
@@ -31,7 +31,7 @@
   
   
 <link rel="prev" href="DC.html"/>
-
+<link rel="next" href="Others.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -135,74 +135,95 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><a href="./">book title.</a></li>
 
 <li class="divider"></li>
-<li class="chapter" data-level="1" data-path="OLS.html"><a href="OLS.html"><i class="fa fa-check"></i><b>1</b> 回帰分析</a><ul>
-<li class="chapter" data-level="1.1" data-path="OLS.html"><a href="OLS.html#検証する仮説"><i class="fa fa-check"></i><b>1.1</b> 検証する仮説</a></li>
-<li class="chapter" data-level="1.2" data-path="OLS.html"><a href="OLS.html#データの読み込み"><i class="fa fa-check"></i><b>1.2</b> データの読み込み</a></li>
-<li class="chapter" data-level="1.3" data-path="OLS.html"><a href="OLS.html#データの把握"><i class="fa fa-check"></i><b>1.3</b> データの把握</a><ul>
-<li class="chapter" data-level="1.3.1" data-path="OLS.html"><a href="OLS.html#ヒストグラム"><i class="fa fa-check"></i><b>1.3.1</b> ヒストグラム</a></li>
-<li class="chapter" data-level="1.3.2" data-path="OLS.html"><a href="OLS.html#散布図"><i class="fa fa-check"></i><b>1.3.2</b> 散布図</a></li>
-<li class="chapter" data-level="1.3.3" data-path="OLS.html"><a href="OLS.html#基本統計量"><i class="fa fa-check"></i><b>1.3.3</b> 基本統計量</a></li>
-</ul></li>
-<li class="chapter" data-level="1.4" data-path="OLS.html"><a href="OLS.html#単回帰分析"><i class="fa fa-check"></i><b>1.4</b> 単回帰分析</a><ul>
-<li class="chapter" data-level="1.4.1" data-path="OLS.html"><a href="OLS.html#計量経済学モデル"><i class="fa fa-check"></i><b>1.4.1</b> 計量経済学モデル</a></li>
-<li class="chapter" data-level="1.4.2" data-path="OLS.html"><a href="OLS.html#推定"><i class="fa fa-check"></i><b>1.4.2</b> 推定</a></li>
-<li class="chapter" data-level="1.4.3" data-path="OLS.html"><a href="OLS.html#解釈"><i class="fa fa-check"></i><b>1.4.3</b> 解釈</a></li>
-</ul></li>
-<li class="chapter" data-level="1.5" data-path="OLS.html"><a href="OLS.html#重回帰分析"><i class="fa fa-check"></i><b>1.5</b> 重回帰分析</a><ul>
-<li class="chapter" data-level="1.5.1" data-path="OLS.html"><a href="OLS.html#計量経済学モデル-1"><i class="fa fa-check"></i><b>1.5.1</b> 計量経済学モデル</a></li>
-<li class="chapter" data-level="1.5.2" data-path="OLS.html"><a href="OLS.html#データの加工-新規変数作成"><i class="fa fa-check"></i><b>1.5.2</b> データの加工: 新規変数作成</a></li>
-<li class="chapter" data-level="1.5.3" data-path="OLS.html"><a href="OLS.html#データの加工-欠損値の処理"><i class="fa fa-check"></i><b>1.5.3</b> データの加工: 欠損値の処理</a></li>
-<li class="chapter" data-level="1.5.4" data-path="OLS.html"><a href="OLS.html#データの加工-ダミー変数"><i class="fa fa-check"></i><b>1.5.4</b> データの加工: ダミー変数</a></li>
-<li class="chapter" data-level="1.5.5" data-path="OLS.html"><a href="OLS.html#推定-1"><i class="fa fa-check"></i><b>1.5.5</b> 推定</a></li>
-<li class="chapter" data-level="1.5.6" data-path="OLS.html"><a href="OLS.html#解釈-1"><i class="fa fa-check"></i><b>1.5.6</b> 解釈</a></li>
-</ul></li>
-<li class="chapter" data-level="1.6" data-path="OLS.html"><a href="OLS.html#捕捉多重共線性"><i class="fa fa-check"></i><b>1.6</b> 捕捉：多重共線性</a><ul>
-<li class="chapter" data-level="1.6.1" data-path="OLS.html"><a href="OLS.html#相関係数"><i class="fa fa-check"></i><b>1.6.1</b> 相関係数</a></li>
-<li class="chapter" data-level="1.6.2" data-path="OLS.html"><a href="OLS.html#vif統計量"><i class="fa fa-check"></i><b>1.6.2</b> VIF統計量</a></li>
+<li class="chapter" data-level="1" data-path="Introduction.html"><a href="Introduction.html"><i class="fa fa-check"></i><b>1</b> イントロダクション</a><ul>
+<li class="chapter" data-level="1.1" data-path="Introduction.html"><a href="Introduction.html#環境構築"><i class="fa fa-check"></i><b>1.1</b> 環境構築</a></li>
+<li class="chapter" data-level="1.2" data-path="Introduction.html"><a href="Introduction.html#基本的な計算"><i class="fa fa-check"></i><b>1.2</b> 基本的な計算</a></li>
+<li class="chapter" data-level="1.3" data-path="Introduction.html"><a href="Introduction.html#ベクトル"><i class="fa fa-check"></i><b>1.3</b> ベクトル</a></li>
+<li class="chapter" data-level="1.4" data-path="Introduction.html"><a href="Introduction.html#データフレーム"><i class="fa fa-check"></i><b>1.4</b> データフレーム</a></li>
+<li class="chapter" data-level="1.5" data-path="Introduction.html"><a href="Introduction.html#データの型"><i class="fa fa-check"></i><b>1.5</b> データの型</a><ul>
+<li class="chapter" data-level="1.5.1" data-path="Introduction.html"><a href="Introduction.html#数値"><i class="fa fa-check"></i><b>1.5.1</b> 数値</a></li>
+<li class="chapter" data-level="1.5.2" data-path="Introduction.html"><a href="Introduction.html#文字"><i class="fa fa-check"></i><b>1.5.2</b> 文字</a></li>
+<li class="chapter" data-level="1.5.3" data-path="Introduction.html"><a href="Introduction.html#論理演算子"><i class="fa fa-check"></i><b>1.5.3</b> 論理演算子</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="2" data-path="IV.html"><a href="IV.html"><i class="fa fa-check"></i><b>2</b> 操作変数法</a><ul>
-<li class="chapter" data-level="2.1" data-path="IV.html"><a href="IV.html#検証する仮説-1"><i class="fa fa-check"></i><b>2.1</b> 検証する仮説</a></li>
-<li class="chapter" data-level="2.2" data-path="IV.html"><a href="IV.html#データの読み込み-1"><i class="fa fa-check"></i><b>2.2</b> データの読み込み</a></li>
-<li class="chapter" data-level="2.3" data-path="IV.html"><a href="IV.html#データの把握-1"><i class="fa fa-check"></i><b>2.3</b> データの把握</a></li>
-<li class="chapter" data-level="2.4" data-path="IV.html"><a href="IV.html#推定-2"><i class="fa fa-check"></i><b>2.4</b> 推定</a><ul>
-<li class="chapter" data-level="2.4.1" data-path="IV.html"><a href="IV.html#計量経済学モデル-2"><i class="fa fa-check"></i><b>2.4.1</b> 計量経済学モデル</a></li>
-<li class="chapter" data-level="2.4.2" data-path="IV.html"><a href="IV.html#操作変数の確認"><i class="fa fa-check"></i><b>2.4.2</b> 操作変数の確認</a></li>
-<li class="chapter" data-level="2.4.3" data-path="IV.html"><a href="IV.html#推定-3"><i class="fa fa-check"></i><b>2.4.3</b> 推定</a></li>
-<li class="chapter" data-level="2.4.4" data-path="IV.html"><a href="IV.html#解釈-2"><i class="fa fa-check"></i><b>2.4.4</b> 解釈</a></li>
+<li class="chapter" data-level="2" data-path="OLS.html"><a href="OLS.html"><i class="fa fa-check"></i><b>2</b> 回帰分析</a><ul>
+<li class="chapter" data-level="2.1" data-path="OLS.html"><a href="OLS.html#検証する仮説"><i class="fa fa-check"></i><b>2.1</b> 検証する仮説</a></li>
+<li class="chapter" data-level="2.2" data-path="OLS.html"><a href="OLS.html#データの読み込み"><i class="fa fa-check"></i><b>2.2</b> データの読み込み</a></li>
+<li class="chapter" data-level="2.3" data-path="OLS.html"><a href="OLS.html#データの把握"><i class="fa fa-check"></i><b>2.3</b> データの把握</a><ul>
+<li class="chapter" data-level="2.3.1" data-path="OLS.html"><a href="OLS.html#ヒストグラム"><i class="fa fa-check"></i><b>2.3.1</b> ヒストグラム</a></li>
+<li class="chapter" data-level="2.3.2" data-path="OLS.html"><a href="OLS.html#散布図"><i class="fa fa-check"></i><b>2.3.2</b> 散布図</a></li>
+<li class="chapter" data-level="2.3.3" data-path="OLS.html"><a href="OLS.html#基本統計量"><i class="fa fa-check"></i><b>2.3.3</b> 基本統計量</a></li>
 </ul></li>
-<li class="chapter" data-level="2.5" data-path="IV.html"><a href="IV.html#推定結果の整理"><i class="fa fa-check"></i><b>2.5</b> 推定結果の整理</a></li>
+<li class="chapter" data-level="2.4" data-path="OLS.html"><a href="OLS.html#単回帰分析"><i class="fa fa-check"></i><b>2.4</b> 単回帰分析</a><ul>
+<li class="chapter" data-level="2.4.1" data-path="OLS.html"><a href="OLS.html#計量経済学モデル"><i class="fa fa-check"></i><b>2.4.1</b> 計量経済学モデル</a></li>
+<li class="chapter" data-level="2.4.2" data-path="OLS.html"><a href="OLS.html#推定"><i class="fa fa-check"></i><b>2.4.2</b> 推定</a></li>
+<li class="chapter" data-level="2.4.3" data-path="OLS.html"><a href="OLS.html#解釈"><i class="fa fa-check"></i><b>2.4.3</b> 解釈</a></li>
 </ul></li>
-<li class="chapter" data-level="3" data-path="DC.html"><a href="DC.html"><i class="fa fa-check"></i><b>3</b> 離散選択モデル</a><ul>
-<li class="chapter" data-level="3.1" data-path="DC.html"><a href="DC.html#検証する仮説-2"><i class="fa fa-check"></i><b>3.1</b> 検証する仮説</a></li>
-<li class="chapter" data-level="3.2" data-path="DC.html"><a href="DC.html#データの読み込み-2"><i class="fa fa-check"></i><b>3.2</b> データの読み込み</a></li>
-<li class="chapter" data-level="3.3" data-path="DC.html"><a href="DC.html#データの把握-2"><i class="fa fa-check"></i><b>3.3</b> データの把握</a></li>
-<li class="chapter" data-level="3.4" data-path="DC.html"><a href="DC.html#推定-4"><i class="fa fa-check"></i><b>3.4</b> 推定</a><ul>
-<li class="chapter" data-level="3.4.1" data-path="DC.html"><a href="DC.html#計量経済学モデル-3"><i class="fa fa-check"></i><b>3.4.1</b> 計量経済学モデル</a></li>
-<li class="chapter" data-level="3.4.2" data-path="DC.html"><a href="DC.html#ロジットモデル"><i class="fa fa-check"></i><b>3.4.2</b> ロジットモデル</a></li>
-<li class="chapter" data-level="3.4.3" data-path="DC.html"><a href="DC.html#解釈-3"><i class="fa fa-check"></i><b>3.4.3</b> 解釈</a></li>
-<li class="chapter" data-level="3.4.4" data-path="DC.html"><a href="DC.html#プロビットモデル"><i class="fa fa-check"></i><b>3.4.4</b> プロビットモデル</a></li>
-<li class="chapter" data-level="3.4.5" data-path="DC.html"><a href="DC.html#解釈-4"><i class="fa fa-check"></i><b>3.4.5</b> 解釈</a></li>
+<li class="chapter" data-level="2.5" data-path="OLS.html"><a href="OLS.html#重回帰分析"><i class="fa fa-check"></i><b>2.5</b> 重回帰分析</a><ul>
+<li class="chapter" data-level="2.5.1" data-path="OLS.html"><a href="OLS.html#計量経済学モデル-1"><i class="fa fa-check"></i><b>2.5.1</b> 計量経済学モデル</a></li>
+<li class="chapter" data-level="2.5.2" data-path="OLS.html"><a href="OLS.html#データの加工-新規変数作成"><i class="fa fa-check"></i><b>2.5.2</b> データの加工: 新規変数作成</a></li>
+<li class="chapter" data-level="2.5.3" data-path="OLS.html"><a href="OLS.html#データの加工-欠損値の処理"><i class="fa fa-check"></i><b>2.5.3</b> データの加工: 欠損値の処理</a></li>
+<li class="chapter" data-level="2.5.4" data-path="OLS.html"><a href="OLS.html#データの加工-ダミー変数"><i class="fa fa-check"></i><b>2.5.4</b> データの加工: ダミー変数</a></li>
+<li class="chapter" data-level="2.5.5" data-path="OLS.html"><a href="OLS.html#推定-1"><i class="fa fa-check"></i><b>2.5.5</b> 推定</a></li>
+<li class="chapter" data-level="2.5.6" data-path="OLS.html"><a href="OLS.html#解釈-1"><i class="fa fa-check"></i><b>2.5.6</b> 解釈</a></li>
 </ul></li>
-<li class="chapter" data-level="3.5" data-path="DC.html"><a href="DC.html#推定結果の整理-1"><i class="fa fa-check"></i><b>3.5</b> 推定結果の整理</a></li>
+<li class="chapter" data-level="2.6" data-path="OLS.html"><a href="OLS.html#捕捉多重共線性"><i class="fa fa-check"></i><b>2.6</b> 捕捉：多重共線性</a><ul>
+<li class="chapter" data-level="2.6.1" data-path="OLS.html"><a href="OLS.html#相関係数"><i class="fa fa-check"></i><b>2.6.1</b> 相関係数</a></li>
+<li class="chapter" data-level="2.6.2" data-path="OLS.html"><a href="OLS.html#vif統計量"><i class="fa fa-check"></i><b>2.6.2</b> VIF統計量</a></li>
 </ul></li>
-<li class="chapter" data-level="4" data-path="PANEL.html"><a href="PANEL.html"><i class="fa fa-check"></i><b>4</b> パネルデータ分析</a><ul>
-<li class="chapter" data-level="4.1" data-path="PANEL.html"><a href="PANEL.html#検証する仮説-3"><i class="fa fa-check"></i><b>4.1</b> 検証する仮説</a></li>
-<li class="chapter" data-level="4.2" data-path="PANEL.html"><a href="PANEL.html#データの読み込み-3"><i class="fa fa-check"></i><b>4.2</b> データの読み込み</a></li>
-<li class="chapter" data-level="4.3" data-path="PANEL.html"><a href="PANEL.html#データの把握-3"><i class="fa fa-check"></i><b>4.3</b> データの把握</a><ul>
-<li class="chapter" data-level="4.3.1" data-path="PANEL.html"><a href="PANEL.html#基本統計量-1"><i class="fa fa-check"></i><b>4.3.1</b> 基本統計量</a></li>
-<li class="chapter" data-level="4.3.2" data-path="PANEL.html"><a href="PANEL.html#データの可視化"><i class="fa fa-check"></i><b>4.3.2</b> データの可視化</a></li>
-<li class="chapter" data-level="4.3.3" data-path="PANEL.html"><a href="PANEL.html#対数変換"><i class="fa fa-check"></i><b>4.3.3</b> 対数変換</a></li>
 </ul></li>
-<li class="chapter" data-level="4.4" data-path="PANEL.html"><a href="PANEL.html#推定-5"><i class="fa fa-check"></i><b>4.4</b> 推定</a><ul>
-<li class="chapter" data-level="4.4.1" data-path="PANEL.html"><a href="PANEL.html#計量経済学モデル-4"><i class="fa fa-check"></i><b>4.4.1</b> 計量経済学モデル</a></li>
-<li class="chapter" data-level="4.4.2" data-path="PANEL.html"><a href="PANEL.html#準備"><i class="fa fa-check"></i><b>4.4.2</b> 準備</a></li>
-<li class="chapter" data-level="4.4.3" data-path="PANEL.html"><a href="PANEL.html#変量効果モデル"><i class="fa fa-check"></i><b>4.4.3</b> 変量効果モデル</a></li>
-<li class="chapter" data-level="4.4.4" data-path="PANEL.html"><a href="PANEL.html#固定効果モデル"><i class="fa fa-check"></i><b>4.4.4</b> 固定効果モデル</a></li>
-<li class="chapter" data-level="4.4.5" data-path="PANEL.html"><a href="PANEL.html#ハウスマン検定"><i class="fa fa-check"></i><b>4.4.5</b> ハウスマン検定</a></li>
-<li class="chapter" data-level="4.4.6" data-path="PANEL.html"><a href="PANEL.html#固定効果時間効果"><i class="fa fa-check"></i><b>4.4.6</b> 固定効果×時間効果</a></li>
+<li class="chapter" data-level="3" data-path="IV.html"><a href="IV.html"><i class="fa fa-check"></i><b>3</b> 操作変数法</a><ul>
+<li class="chapter" data-level="3.1" data-path="IV.html"><a href="IV.html#検証する仮説-1"><i class="fa fa-check"></i><b>3.1</b> 検証する仮説</a></li>
+<li class="chapter" data-level="3.2" data-path="IV.html"><a href="IV.html#データの読み込み-1"><i class="fa fa-check"></i><b>3.2</b> データの読み込み</a></li>
+<li class="chapter" data-level="3.3" data-path="IV.html"><a href="IV.html#データの把握-1"><i class="fa fa-check"></i><b>3.3</b> データの把握</a></li>
+<li class="chapter" data-level="3.4" data-path="IV.html"><a href="IV.html#推定-2"><i class="fa fa-check"></i><b>3.4</b> 推定</a><ul>
+<li class="chapter" data-level="3.4.1" data-path="IV.html"><a href="IV.html#計量経済学モデル-2"><i class="fa fa-check"></i><b>3.4.1</b> 計量経済学モデル</a></li>
+<li class="chapter" data-level="3.4.2" data-path="IV.html"><a href="IV.html#操作変数の確認"><i class="fa fa-check"></i><b>3.4.2</b> 操作変数の確認</a></li>
+<li class="chapter" data-level="3.4.3" data-path="IV.html"><a href="IV.html#推定-3"><i class="fa fa-check"></i><b>3.4.3</b> 推定</a></li>
+<li class="chapter" data-level="3.4.4" data-path="IV.html"><a href="IV.html#解釈-2"><i class="fa fa-check"></i><b>3.4.4</b> 解釈</a></li>
 </ul></li>
-<li class="chapter" data-level="4.5" data-path="PANEL.html"><a href="PANEL.html#推定結果の整理-2"><i class="fa fa-check"></i><b>4.5</b> 推定結果の整理</a></li>
+<li class="chapter" data-level="3.5" data-path="IV.html"><a href="IV.html#推定結果の整理"><i class="fa fa-check"></i><b>3.5</b> 推定結果の整理</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="DC.html"><a href="DC.html"><i class="fa fa-check"></i><b>4</b> 離散選択モデル</a><ul>
+<li class="chapter" data-level="4.1" data-path="DC.html"><a href="DC.html#検証する仮説-2"><i class="fa fa-check"></i><b>4.1</b> 検証する仮説</a></li>
+<li class="chapter" data-level="4.2" data-path="DC.html"><a href="DC.html#データの読み込み-2"><i class="fa fa-check"></i><b>4.2</b> データの読み込み</a></li>
+<li class="chapter" data-level="4.3" data-path="DC.html"><a href="DC.html#データの把握-2"><i class="fa fa-check"></i><b>4.3</b> データの把握</a></li>
+<li class="chapter" data-level="4.4" data-path="DC.html"><a href="DC.html#推定-4"><i class="fa fa-check"></i><b>4.4</b> 推定</a><ul>
+<li class="chapter" data-level="4.4.1" data-path="DC.html"><a href="DC.html#計量経済学モデル-3"><i class="fa fa-check"></i><b>4.4.1</b> 計量経済学モデル</a></li>
+<li class="chapter" data-level="4.4.2" data-path="DC.html"><a href="DC.html#ロジットモデル"><i class="fa fa-check"></i><b>4.4.2</b> ロジットモデル</a></li>
+<li class="chapter" data-level="4.4.3" data-path="DC.html"><a href="DC.html#解釈-3"><i class="fa fa-check"></i><b>4.4.3</b> 解釈</a></li>
+<li class="chapter" data-level="4.4.4" data-path="DC.html"><a href="DC.html#プロビットモデル"><i class="fa fa-check"></i><b>4.4.4</b> プロビットモデル</a></li>
+<li class="chapter" data-level="4.4.5" data-path="DC.html"><a href="DC.html#解釈-4"><i class="fa fa-check"></i><b>4.4.5</b> 解釈</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="DC.html"><a href="DC.html#推定結果の整理-1"><i class="fa fa-check"></i><b>4.5</b> 推定結果の整理</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="PANEL.html"><a href="PANEL.html"><i class="fa fa-check"></i><b>5</b> パネルデータ分析</a><ul>
+<li class="chapter" data-level="5.1" data-path="PANEL.html"><a href="PANEL.html#検証する仮説-3"><i class="fa fa-check"></i><b>5.1</b> 検証する仮説</a></li>
+<li class="chapter" data-level="5.2" data-path="PANEL.html"><a href="PANEL.html#データの読み込み-3"><i class="fa fa-check"></i><b>5.2</b> データの読み込み</a></li>
+<li class="chapter" data-level="5.3" data-path="PANEL.html"><a href="PANEL.html#データの把握-3"><i class="fa fa-check"></i><b>5.3</b> データの把握</a><ul>
+<li class="chapter" data-level="5.3.1" data-path="PANEL.html"><a href="PANEL.html#基本統計量-1"><i class="fa fa-check"></i><b>5.3.1</b> 基本統計量</a></li>
+<li class="chapter" data-level="5.3.2" data-path="PANEL.html"><a href="PANEL.html#データの可視化"><i class="fa fa-check"></i><b>5.3.2</b> データの可視化</a></li>
+<li class="chapter" data-level="5.3.3" data-path="PANEL.html"><a href="PANEL.html#対数変換"><i class="fa fa-check"></i><b>5.3.3</b> 対数変換</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="PANEL.html"><a href="PANEL.html#推定-5"><i class="fa fa-check"></i><b>5.4</b> 推定</a><ul>
+<li class="chapter" data-level="5.4.1" data-path="PANEL.html"><a href="PANEL.html#計量経済学モデル-4"><i class="fa fa-check"></i><b>5.4.1</b> 計量経済学モデル</a></li>
+<li class="chapter" data-level="5.4.2" data-path="PANEL.html"><a href="PANEL.html#準備"><i class="fa fa-check"></i><b>5.4.2</b> 準備</a></li>
+<li class="chapter" data-level="5.4.3" data-path="PANEL.html"><a href="PANEL.html#変量効果モデル"><i class="fa fa-check"></i><b>5.4.3</b> 変量効果モデル</a></li>
+<li class="chapter" data-level="5.4.4" data-path="PANEL.html"><a href="PANEL.html#固定効果モデル"><i class="fa fa-check"></i><b>5.4.4</b> 固定効果モデル</a></li>
+<li class="chapter" data-level="5.4.5" data-path="PANEL.html"><a href="PANEL.html#ハウスマン検定"><i class="fa fa-check"></i><b>5.4.5</b> ハウスマン検定</a></li>
+<li class="chapter" data-level="5.4.6" data-path="PANEL.html"><a href="PANEL.html#固定効果時間効果"><i class="fa fa-check"></i><b>5.4.6</b> 固定効果×時間効果</a></li>
+</ul></li>
+<li class="chapter" data-level="5.5" data-path="PANEL.html"><a href="PANEL.html#推定結果の整理-2"><i class="fa fa-check"></i><b>5.5</b> 推定結果の整理</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="Others.html"><a href="Others.html"><i class="fa fa-check"></i><b>6</b> 参考リンク</a><ul>
+<li class="chapter" data-level="6.1" data-path="Others.html"><a href="Others.html#web-スクレイピング"><i class="fa fa-check"></i><b>6.1</b> Web スクレイピング</a></li>
+<li class="chapter" data-level="6.2" data-path="Others.html"><a href="Others.html#地理情報講座"><i class="fa fa-check"></i><b>6.2</b> 地理情報講座</a></li>
+<li class="chapter" data-level="6.3" data-path="Others.html"><a href="Others.html#パネルデータ分析-1"><i class="fa fa-check"></i><b>6.3</b> パネルデータ分析</a></li>
+<li class="chapter" data-level="6.4" data-path="Others.html"><a href="Others.html#dplyr入門"><i class="fa fa-check"></i><b>6.4</b> dplyr入門</a></li>
+<li class="chapter" data-level="6.5" data-path="Others.html"><a href="Others.html#ggplot2-入門"><i class="fa fa-check"></i><b>6.5</b> ggplot2 入門</a></li>
+<li class="chapter" data-level="6.6" data-path="Others.html"><a href="Others.html#stringr入門"><i class="fa fa-check"></i><b>6.6</b> stringr入門</a></li>
+<li class="chapter" data-level="6.7" data-path="Others.html"><a href="Others.html#lubridate"><i class="fa fa-check"></i><b>6.7</b> lubridate</a></li>
+<li class="chapter" data-level="6.8" data-path="Others.html"><a href="Others.html#その他有用なサイト"><i class="fa fa-check"></i><b>6.8</b> その他有用なサイト</a></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -225,16 +246,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
             <section class="normal" id="section-">
 <div id="パネルデータ分析" class="section level1">
-<h1><span class="header-section-number">Chapter 4</span> パネルデータ分析</h1>
+<h1><span class="header-section-number">Chapter 5</span> パネルデータ分析</h1>
 <div id="検証する仮説-3" class="section level2">
-<h2><span class="header-section-number">4.1</span> 検証する仮説</h2>
+<h2><span class="header-section-number">5.1</span> 検証する仮説</h2>
 <p>「当該路線上で市場集中度が高いほど、運賃は高くなるのでは？」という仮説を検証してみます。市場集中度を示す値として、今回の分析では各路線上でトップシェアを誇るエアラインの市場シェアを使って分析していきます。</p>
 </div>
 <div id="データの読み込み-3" class="section level2">
-<h2><span class="header-section-number">4.2</span> データの読み込み</h2>
-<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb61-1"><a href="PANEL.html#cb61-1"></a><span class="kw">library</span>(openxlsx)</span></code></pre></div>
-<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="PANEL.html#cb62-1"></a>df &lt;-<span class="st"> </span><span class="kw">read.xlsx</span>(<span class="st">&quot;data/airfare.xlsx&quot;</span>)</span>
-<span id="cb62-2"><a href="PANEL.html#cb62-2"></a><span class="kw">head</span>(df)</span></code></pre></div>
+<h2><span class="header-section-number">5.2</span> データの読み込み</h2>
+<div class="sourceCode" id="cb136"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb136-1"><a href="PANEL.html#cb136-1"></a><span class="kw">library</span>(openxlsx)</span></code></pre></div>
+<div class="sourceCode" id="cb137"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb137-1"><a href="PANEL.html#cb137-1"></a>df &lt;-<span class="st"> </span><span class="kw">read.xlsx</span>(<span class="st">&quot;data/airfare.xlsx&quot;</span>)</span>
+<span id="cb137-2"><a href="PANEL.html#cb137-2"></a><span class="kw">head</span>(df)</span></code></pre></div>
 <pre><code>##   year      origin        destin dist passen fare bmktshr
 ## 1 1997 &quot;AKRON, OH&quot; &quot;ATLANTA, GA&quot;  528    152  106  0.8386
 ## 2 1998 &quot;AKRON, OH&quot; &quot;ATLANTA, GA&quot;  528    265  106  0.8133
@@ -251,10 +272,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 6  2</code></pre>
 </div>
 <div id="データの把握-3" class="section level2">
-<h2><span class="header-section-number">4.3</span> データの把握</h2>
+<h2><span class="header-section-number">5.3</span> データの把握</h2>
 <div id="基本統計量-1" class="section level3">
-<h3><span class="header-section-number">4.3.1</span> 基本統計量</h3>
-<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="PANEL.html#cb64-1"></a><span class="kw">summary</span>(df)</span></code></pre></div>
+<h3><span class="header-section-number">5.3.1</span> 基本統計量</h3>
+<div class="sourceCode" id="cb139"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb139-1"><a href="PANEL.html#cb139-1"></a><span class="kw">summary</span>(df)</span></code></pre></div>
 <pre><code>##       year         origin             destin         
 ##  Min.   :1997   Length:4596        Length:4596       
 ##  1st Qu.:1998   Class :character   Class :character  
@@ -278,35 +299,41 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ##  Max.   :1.0000   Max.   :1149</code></pre>
 </div>
 <div id="データの可視化" class="section level3">
-<h3><span class="header-section-number">4.3.2</span> データの可視化</h3>
-<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="PANEL.html#cb66-1"></a><span class="kw">library</span>(ggpubr)</span></code></pre></div>
-<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb67-1"><a href="PANEL.html#cb67-1"></a><span class="kw">gghistogram</span>(df, <span class="dt">x =</span> <span class="st">&quot;fare&quot;</span>, <span class="dt">bins =</span> <span class="dv">30</span>, <span class="dt">title =</span> <span class="st">&quot;Histogram of fare&quot;</span>)</span></code></pre></div>
+<h3><span class="header-section-number">5.3.2</span> データの可視化</h3>
+<div class="sourceCode" id="cb141"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb141-1"><a href="PANEL.html#cb141-1"></a><span class="kw">library</span>(ggpubr)</span></code></pre></div>
+<pre><code>## Loading required package: ggplot2</code></pre>
+<pre><code>## 
+## Attaching package: &#39;ggplot2&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:psych&#39;:
+## 
+##     %+%, alpha</code></pre>
+<div class="sourceCode" id="cb145"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb145-1"><a href="PANEL.html#cb145-1"></a><span class="kw">gghistogram</span>(df, <span class="dt">x =</span> <span class="st">&quot;fare&quot;</span>, <span class="dt">bins =</span> <span class="dv">30</span>, <span class="dt">title =</span> <span class="st">&quot;Histogram of fare&quot;</span>)</span></code></pre></div>
 <p><img src="R-Intro-Econometrics_files/figure-html/panel%20visual-1.png" width="672" /></p>
 </div>
 <div id="対数変換" class="section level3">
-<h3><span class="header-section-number">4.3.3</span> 対数変換</h3>
-<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb68-1"><a href="PANEL.html#cb68-1"></a>df<span class="op">$</span>ln_fare &lt;-<span class="st"> </span><span class="kw">log</span>(df<span class="op">$</span>fare)</span>
-<span id="cb68-2"><a href="PANEL.html#cb68-2"></a><span class="kw">gghistogram</span>(df, <span class="dt">x =</span> <span class="st">&quot;ln_fare&quot;</span>, <span class="dt">bins =</span> <span class="dv">30</span>, <span class="dt">title =</span> <span class="st">&quot;Histogram of ln_fare&quot;</span>)</span></code></pre></div>
+<h3><span class="header-section-number">5.3.3</span> 対数変換</h3>
+<div class="sourceCode" id="cb146"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb146-1"><a href="PANEL.html#cb146-1"></a>df<span class="op">$</span>ln_fare &lt;-<span class="st"> </span><span class="kw">log</span>(df<span class="op">$</span>fare)</span>
+<span id="cb146-2"><a href="PANEL.html#cb146-2"></a><span class="kw">gghistogram</span>(df, <span class="dt">x =</span> <span class="st">&quot;ln_fare&quot;</span>, <span class="dt">bins =</span> <span class="dv">30</span>, <span class="dt">title =</span> <span class="st">&quot;Histogram of ln_fare&quot;</span>)</span></code></pre></div>
 <p><img src="R-Intro-Econometrics_files/figure-html/panel%20log-1.png" width="672" /></p>
 </div>
 </div>
 <div id="推定-5" class="section level2">
-<h2><span class="header-section-number">4.4</span> 推定</h2>
+<h2><span class="header-section-number">5.4</span> 推定</h2>
 <div id="計量経済学モデル-4" class="section level3">
-<h3><span class="header-section-number">4.4.1</span> 計量経済学モデル</h3>
+<h3><span class="header-section-number">5.4.1</span> 計量経済学モデル</h3>
 <p><span class="math display">\[ 
 ln\_fare_{i,t} = \alpha + \beta_{1}\times bmktshr_{i,t}+ \beta_{2}\times dist_{i,t}+ \beta_{3}\times passen_{i,t}+ F_i + u_{i,t} 
 \]</span></p>
 </div>
 <div id="準備" class="section level3">
-<h3><span class="header-section-number">4.4.2</span> 準備</h3>
-<div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb69-1"><a href="PANEL.html#cb69-1"></a><span class="kw">library</span>(plm)</span></code></pre></div>
-<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb70-1"><a href="PANEL.html#cb70-1"></a>df_panel &lt;-<span class="st"> </span><span class="kw">pdata.frame</span>(df, <span class="dt">index =</span> <span class="kw">c</span>(<span class="st">&#39;ID&#39;</span>, <span class="st">&#39;year&#39;</span>))</span></code></pre></div>
+<h3><span class="header-section-number">5.4.2</span> 準備</h3>
+<div class="sourceCode" id="cb147"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb147-1"><a href="PANEL.html#cb147-1"></a><span class="kw">library</span>(plm)</span></code></pre></div>
+<div class="sourceCode" id="cb148"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb148-1"><a href="PANEL.html#cb148-1"></a>df_panel &lt;-<span class="st"> </span><span class="kw">pdata.frame</span>(df, <span class="dt">index =</span> <span class="kw">c</span>(<span class="st">&#39;ID&#39;</span>, <span class="st">&#39;year&#39;</span>))</span></code></pre></div>
 </div>
 <div id="変量効果モデル" class="section level3">
-<h3><span class="header-section-number">4.4.3</span> 変量効果モデル</h3>
-<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb71-1"><a href="PANEL.html#cb71-1"></a>out_random &lt;-<span class="st"> </span><span class="kw">plm</span>(ln_fare <span class="op">~</span><span class="st"> </span>bmktshr<span class="op">+</span><span class="st"> </span>dist <span class="op">+</span><span class="st"> </span>passen , <span class="dt">data =</span> df_panel, <span class="dt">model =</span> <span class="st">&quot;random&quot;</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="PANEL.html#cb72-1"></a><span class="kw">summary</span>(out_random)</span></code></pre></div>
+<h3><span class="header-section-number">5.4.3</span> 変量効果モデル</h3>
+<div class="sourceCode" id="cb149"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb149-1"><a href="PANEL.html#cb149-1"></a>out_random &lt;-<span class="st"> </span><span class="kw">plm</span>(ln_fare <span class="op">~</span><span class="st"> </span>bmktshr<span class="op">+</span><span class="st"> </span>dist <span class="op">+</span><span class="st"> </span>passen , <span class="dt">data =</span> df_panel, <span class="dt">model =</span> <span class="st">&quot;random&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb150"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb150-1"><a href="PANEL.html#cb150-1"></a><span class="kw">summary</span>(out_random)</span></code></pre></div>
 <pre><code>## Oneway (individual) effect Random Effect Model 
 ##    (Swamy-Arora&#39;s transformation)
 ## 
@@ -345,9 +372,9 @@ ln\_fare_{i,t} = \alpha + \beta_{1}\times bmktshr_{i,t}+ \beta_{2}\times dist_{i
 ## Chisq: 1005.39 on 3 DF, p-value: &lt; 2.22e-16</code></pre>
 </div>
 <div id="固定効果モデル" class="section level3">
-<h3><span class="header-section-number">4.4.4</span> 固定効果モデル</h3>
-<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb74-1"><a href="PANEL.html#cb74-1"></a>out_fix &lt;-<span class="st"> </span><span class="kw">plm</span>(ln_fare <span class="op">~</span><span class="st"> </span>bmktshr<span class="op">+</span><span class="st"> </span>dist <span class="op">+</span><span class="st"> </span>passen , <span class="dt">data =</span> df_panel, <span class="dt">model =</span> <span class="st">&quot;within&quot;</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb75-1"><a href="PANEL.html#cb75-1"></a><span class="kw">summary</span>(out_fix)</span></code></pre></div>
+<h3><span class="header-section-number">5.4.4</span> 固定効果モデル</h3>
+<div class="sourceCode" id="cb152"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb152-1"><a href="PANEL.html#cb152-1"></a>out_fix &lt;-<span class="st"> </span><span class="kw">plm</span>(ln_fare <span class="op">~</span><span class="st"> </span>bmktshr<span class="op">+</span><span class="st"> </span>dist <span class="op">+</span><span class="st"> </span>passen , <span class="dt">data =</span> df_panel, <span class="dt">model =</span> <span class="st">&quot;within&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb153"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb153-1"><a href="PANEL.html#cb153-1"></a><span class="kw">summary</span>(out_fix)</span></code></pre></div>
 <pre><code>## Oneway (individual) effect Within Model
 ## 
 ## Call:
@@ -376,12 +403,12 @@ ln\_fare_{i,t} = \alpha + \beta_{1}\times bmktshr_{i,t}+ \beta_{2}\times dist_{i
 ## Adj. R-Squared: -0.20234
 ## F-statistic: 188.365 on 2 and 3445 DF, p-value: &lt; 2.22e-16</code></pre>
 <p>固定効果自体はfixefで取り出せます。</p>
-<div class="sourceCode" id="cb77"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb77-1"><a href="PANEL.html#cb77-1"></a><span class="kw">mean</span>(<span class="kw">fixef</span>(out_fix))</span></code></pre></div>
+<div class="sourceCode" id="cb155"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb155-1"><a href="PANEL.html#cb155-1"></a><span class="kw">mean</span>(<span class="kw">fixef</span>(out_fix))</span></code></pre></div>
 <pre><code>## [1] 5.268405</code></pre>
 </div>
 <div id="ハウスマン検定" class="section level3">
-<h3><span class="header-section-number">4.4.5</span> ハウスマン検定</h3>
-<div class="sourceCode" id="cb79"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb79-1"><a href="PANEL.html#cb79-1"></a><span class="kw">phtest</span>(out_fix, out_random)</span></code></pre></div>
+<h3><span class="header-section-number">5.4.5</span> ハウスマン検定</h3>
+<div class="sourceCode" id="cb157"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb157-1"><a href="PANEL.html#cb157-1"></a><span class="kw">phtest</span>(out_fix, out_random)</span></code></pre></div>
 <pre><code>## 
 ##  Hausman Test
 ## 
@@ -390,12 +417,12 @@ ln\_fare_{i,t} = \alpha + \beta_{1}\times bmktshr_{i,t}+ \beta_{2}\times dist_{i
 ## alternative hypothesis: one model is inconsistent</code></pre>
 </div>
 <div id="固定効果時間効果" class="section level3">
-<h3><span class="header-section-number">4.4.6</span> 固定効果×時間効果</h3>
+<h3><span class="header-section-number">5.4.6</span> 固定効果×時間効果</h3>
 <p><span class="math display">\[ 
 ln\_fare_{i,t} = \alpha + \beta_{1}\times bmktshr_{i,t}+ \beta_{2}\times dist_{i,t}+ \beta_{3}\times passen_{i,t}+ F_i +y\_1997_{i, t} +y\_1998_{i, t} +y\_1999_{i, t} + u_{i,t} 
 \]</span></p>
-<div class="sourceCode" id="cb81"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb81-1"><a href="PANEL.html#cb81-1"></a>out_fix_time &lt;-<span class="st"> </span><span class="kw">plm</span>(ln_fare <span class="op">~</span><span class="st"> </span>bmktshr<span class="op">+</span><span class="st"> </span>dist <span class="op">+</span><span class="st"> </span>passen , <span class="dt">data =</span> df_panel, <span class="dt">effect =</span> <span class="st">&quot;twoways&quot;</span>, <span class="dt">model =</span> <span class="st">&quot;within&quot;</span>)</span>
-<span id="cb81-2"><a href="PANEL.html#cb81-2"></a><span class="kw">summary</span>(out_fix_time)</span></code></pre></div>
+<div class="sourceCode" id="cb159"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb159-1"><a href="PANEL.html#cb159-1"></a>out_fix_time &lt;-<span class="st"> </span><span class="kw">plm</span>(ln_fare <span class="op">~</span><span class="st"> </span>bmktshr<span class="op">+</span><span class="st"> </span>dist <span class="op">+</span><span class="st"> </span>passen , <span class="dt">data =</span> df_panel, <span class="dt">effect =</span> <span class="st">&quot;twoways&quot;</span>, <span class="dt">model =</span> <span class="st">&quot;within&quot;</span>)</span>
+<span id="cb159-2"><a href="PANEL.html#cb159-2"></a><span class="kw">summary</span>(out_fix_time)</span></code></pre></div>
 <pre><code>## Twoways effects Within Model
 ## 
 ## Call:
@@ -424,10 +451,10 @@ ln\_fare_{i,t} = \alpha + \beta_{1}\times bmktshr_{i,t}+ \beta_{2}\times dist_{i
 </div>
 </div>
 <div id="推定結果の整理-2" class="section level2">
-<h2><span class="header-section-number">4.5</span> 推定結果の整理</h2>
-<div class="sourceCode" id="cb83"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb83-1"><a href="PANEL.html#cb83-1"></a><span class="kw">library</span>(stargazer)</span></code></pre></div>
-<div class="sourceCode" id="cb84"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb84-1"><a href="PANEL.html#cb84-1"></a>out_OLS &lt;-<span class="st"> </span><span class="kw">lm</span>(ln_fare <span class="op">~</span><span class="st"> </span>bmktshr<span class="op">+</span><span class="st"> </span>dist <span class="op">+</span><span class="st"> </span>passen , <span class="dt">data =</span> df)</span></code></pre></div>
-<div class="sourceCode" id="cb85"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb85-1"><a href="PANEL.html#cb85-1"></a><span class="kw">stargazer</span>(out_OLS, out_fix, out_random, out_fix_time, <span class="dt">type=</span><span class="st">&quot;text&quot;</span>)</span></code></pre></div>
+<h2><span class="header-section-number">5.5</span> 推定結果の整理</h2>
+<div class="sourceCode" id="cb161"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb161-1"><a href="PANEL.html#cb161-1"></a><span class="kw">library</span>(stargazer)</span></code></pre></div>
+<div class="sourceCode" id="cb162"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb162-1"><a href="PANEL.html#cb162-1"></a>out_OLS &lt;-<span class="st"> </span><span class="kw">lm</span>(ln_fare <span class="op">~</span><span class="st"> </span>bmktshr<span class="op">+</span><span class="st"> </span>dist <span class="op">+</span><span class="st"> </span>passen , <span class="dt">data =</span> df)</span></code></pre></div>
+<div class="sourceCode" id="cb163"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb163-1"><a href="PANEL.html#cb163-1"></a><span class="kw">stargazer</span>(out_OLS, out_fix, out_random, out_fix_time, <span class="dt">type=</span><span class="st">&quot;text&quot;</span>)</span></code></pre></div>
 <pre><code>## 
 ## ================================================================================================================
 ##                                                         Dependent variable:                                     
@@ -465,8 +492,8 @@ ln\_fare_{i,t} = \alpha + \beta_{1}\times bmktshr_{i,t}+ \beta_{2}\times dist_{i
           </div>
         </div>
       </div>
-<a href="DC.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-
+<a href="DC.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="Others.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

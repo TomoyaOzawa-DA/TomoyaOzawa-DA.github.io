@@ -1,0 +1,51 @@
+
+# 参考リンク
+## Web スクレイピング
+[RでのWeb スクレイピング入門](https://qiita.com/Tom-tom-tom/items/998e8282d013fb218490)
+- Rを使ってWeb上のデータを収集する方法を解説した記事です。
+- 後述の地理情報講座とリンクしています。
+
+## 地理情報講座
+[【地理情報講座#1】Rでのジオコーディング入門](https://qiita.com/Tom-tom-tom/items/e651b2afcc9c376174ae)
+- ジオコーディング（住所を緯度経度に変換する）に関して解説した記事です。
+[【地理情報講座#2】Rでのメッシュ統計データ入門](https://qiita.com/Tom-tom-tom/items/03d994fdc0a3a0998c10)
+- メッシュ統計データの使い方を解説した記事です。
+[【地理情報講座#3】Rでの距離計算入門](https://qiita.com/Tom-tom-tom/items/7aa6d2b7a5fea915dd93)
+- 市場競争度の代替指標として使われる店舗間の距離をどう計算するかについて解説した記事です。
+
+## パネルデータ分析
+[Rでのパネルデータ加工](https://qiita.com/Tom-tom-tom/items/297a04affd8e3e10ea1d)
+- 実証分析でよく使われるパネルデータの作り方が学べる記事です。
+
+## dplyr入門
+`dplyr`は実証分析の一番重要かつ時間のかかるパートであるデータ加工を簡単に直感的に行えるライブラリです。
+- [dplyr入門 (新版)](https://www.jaysong.net/dplyr_intro/)
+- [dplyrを使いこなす！基礎編](https://qiita.com/matsuou1/items/e995da273e3108e2338e)
+- [データ操作 -kazutan on web](https://kazutan.github.io/JSSP2018_spring/data_handling.html)
+
+## ggplot2 入門
+`ggplot2`はデータの可視化を簡単に直感的に行えるライブラリです。
+- [ggplot2による可視化入門](https://kazutan.github.io/fukuokaR11/intro_ggplot2.html)
+- [ggplot2入門 [基礎編]](https://www.jaysong.net/ggplot_intro2/)
+
+## stringr入門
+`stringr`は文字列の処理を簡単に直感的に行えるライブラリです。
+- [stringrを使って文字列処理をやってみる](https://kazutan.github.io/kazutanR/stringr-intro.html)
+
+## lubridate
+`lubridate`は日付・時刻の処理を簡単に直感的に行えるライブラリです。
+- [日付・時刻処理の決定版！lubridateの使い方](https://www.medi-08-data-06.work/entry/how_to_use_lubridate1902)
+- [ログデータ処理で学ぶlubridate入門](https://kazutan.github.io/SappoRoR8/01-lubridate.html)
+
+## その他有用なサイト
+ [R Econ Visual Library](https://worldbank.github.io/r-econ-visual-library/RegressionCoef.html)
+ - 世銀が公開しているデータ可視化のTips集です。
+ [Tidyverse design guide](https://design.tidyverse.org/)
+ - `tidyverse`ライブラリ(`dplyr`, `ggplot2`などなど)の使い方に関するTips集です。
+ [R for Data Science](https://r4ds.had.co.nz/)
+ - Rでデータサイエンスを体系的に学べる教材です。`tidyverse`も同時に学べます。
+ [R for Data Science: Answers](https://sugiaki1989.gitbook.io/r-for-data-science-answers/)
+ - 上の本の答えです。
+ 
+ 
+ 
