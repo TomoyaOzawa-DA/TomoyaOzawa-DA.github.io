@@ -1,13 +1,3 @@
----
-title: "Rで計量経済学"
-author: "Tomoya Ozawa"
-date: 'Last Update: 02/11/2021'
-site: bookdown::bookdown_site
-output: bookdown::gitbook
----
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
 
 # 回帰分析
 ## 検証する仮説
