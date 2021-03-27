@@ -1,6 +1,8 @@
 
 # 離散選択モデル
 
+離散選択モデルの説明は[こちら](https://speakerdeck.com/tom01/rdeji-liang-jing-ji-xue-number-5-purobitutorozitutomoderu)からどうぞ。
+
 ## 検証する仮説
 「自社の店舗が多い地域ほど出店確率が高まるのでは？」という仮説をFamilymartに関して検証してみます。ドミナント戦略が取られていれば、この仮説通りになっているはずです。三田論コンビニ班の簡易的な分析です。
 

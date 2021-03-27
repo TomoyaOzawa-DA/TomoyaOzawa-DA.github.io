@@ -247,6 +247,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="離散選択モデル" class="section level1">
 <h1><span class="header-section-number">Chapter 4</span> 離散選択モデル</h1>
+<p>離散選択モデルの説明は<a href="https://speakerdeck.com/tom01/rdeji-liang-jing-ji-xue-number-5-purobitutorozitutomoderu">こちら</a>からどうぞ。</p>
 <div id="検証する仮説-2" class="section level2">
 <h2><span class="header-section-number">4.1</span> 検証する仮説</h2>
 <p>「自社の店舗が多い地域ほど出店確率が高まるのでは？」という仮説をFamilymartに関して検証してみます。ドミナント戦略が取られていれば、この仮説通りになっているはずです。三田論コンビニ班の簡易的な分析です。</p>
@@ -254,8 +255,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="データの読み込み-2" class="section level2">
 <h2><span class="header-section-number">4.2</span> データの読み込み</h2>
 <p>各（メッシュ）地域における、2011年~2018年ごとのFamilymart, LAWSONの参入行動とその地域特性を示したデータです。例えば、メッシュ地域362327851（<code>head()</code>でデータを見た時に一番上にでてくる地域）は2013年にFamilymartが初めて参入したことがわかります。</p>
-<div class="sourceCode" id="cb117"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb117-1"><a href="DC.html#cb117-1"></a>df &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&#39;data/Mitaron_convenience.csv&#39;</span>)</span>
-<span id="cb117-2"><a href="DC.html#cb117-2"></a><span class="kw">head</span>(df)</span></code></pre></div>
+<div class="sourceCode" id="cb116"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb116-1"><a href="DC.html#cb116-1"></a>df &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&#39;data/Mitaron_convenience.csv&#39;</span>)</span>
+<span id="cb116-2"><a href="DC.html#cb116-2"></a><span class="kw">head</span>(df)</span></code></pre></div>
 <pre><code>##   Mesh_area Open_year Familymart_Entry LAWSON_Entry
 ## 1 362327851      2011                0            0
 ## 2 362327851      2012                0            0
@@ -327,7 +328,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="データの把握-2" class="section level2">
 <h2><span class="header-section-number">4.3</span> データの把握</h2>
-<div class="sourceCode" id="cb119"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb119-1"><a href="DC.html#cb119-1"></a><span class="kw">summary</span>(df)</span></code></pre></div>
+<div class="sourceCode" id="cb118"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb118-1"><a href="DC.html#cb118-1"></a><span class="kw">summary</span>(df)</span></code></pre></div>
 <pre><code>##    Mesh_area           Open_year    Familymart_Entry 
 ##  Min.   :362327851   Min.   :2011   Min.   :0.00000  
 ##  1st Qu.:392725222   1st Qu.:2013   1st Qu.:0.00000  
@@ -381,12 +382,12 @@ P(Familymart\_Entry = 1) = F(\alpha + \beta_{1}\times Familymart\_existed_{i}+ \
 <div id="ロジットモデル" class="section level3">
 <h3><span class="header-section-number">4.4.2</span> ロジットモデル</h3>
 <p>ロジットモデルを推定する際は<code>glm()</code>関数を使います。基本的にはOLS推定と一緒ですが、()内でロジットモデルであることを指定するため、<code>family = binominal(link = "logit")</code>と指定します。結果を<code>out_logit</code>に保存します。</p>
-<div class="sourceCode" id="cb121"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb121-1"><a href="DC.html#cb121-1"></a>out_logit &lt;-<span class="st"> </span><span class="kw">glm</span>( Familymart_Entry <span class="op">~</span><span class="st"> </span>Familymart_existed <span class="op">+</span><span class="st"> </span>pop, <span class="dt">family =</span> <span class="kw">binomial</span>(<span class="dt">link =</span> <span class="st">&quot;logit&quot;</span>), <span class="dt">data =</span> df)</span></code></pre></div>
+<div class="sourceCode" id="cb120"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb120-1"><a href="DC.html#cb120-1"></a>out_logit &lt;-<span class="st"> </span><span class="kw">glm</span>( Familymart_Entry <span class="op">~</span><span class="st"> </span>Familymart_existed <span class="op">+</span><span class="st"> </span>pop, <span class="dt">family =</span> <span class="kw">binomial</span>(<span class="dt">link =</span> <span class="st">&quot;logit&quot;</span>), <span class="dt">data =</span> df)</span></code></pre></div>
 </div>
 <div id="解釈-3" class="section level3">
 <h3><span class="header-section-number">4.4.3</span> 解釈</h3>
 <p>推定結果を出力する時にはいつも通り<code>summary()</code>です。</p>
-<div class="sourceCode" id="cb122"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb122-1"><a href="DC.html#cb122-1"></a><span class="kw">summary</span>(out_logit)</span></code></pre></div>
+<div class="sourceCode" id="cb121"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb121-1"><a href="DC.html#cb121-1"></a><span class="kw">summary</span>(out_logit)</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## glm(formula = Familymart_Entry ~ Familymart_existed + pop, family = binomial(link = &quot;logit&quot;), 
@@ -417,9 +418,9 @@ P(Familymart\_Entry = 1) = F(\alpha + \beta_{1}\times Familymart\_existed_{i}+ \
 ## 
 ## Number of Fisher Scoring iterations: 5</code></pre>
 <p>離散選択モデルのポイントとして、結果を解釈する際にパラメータの値をそのまま使うことが出来ません。その代わりに、いくつか係数を解釈する際に使われる項目がありますが、ここでは平均限界効果を紹介します。この指標は、ある説明変数を1単位増やした際に、確率が平均的にどの程度変化するのかを表すものです。ライブラリ<code>margins</code>を使えば、一瞬で出力されます。</p>
-<div class="sourceCode" id="cb124"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb124-1"><a href="DC.html#cb124-1"></a><span class="kw">library</span>(margins)</span></code></pre></div>
+<div class="sourceCode" id="cb123"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb123-1"><a href="DC.html#cb123-1"></a><span class="kw">library</span>(margins)</span></code></pre></div>
 <p>既存店舗が1店舗増えることで、参入確率は4.6%ほど下がる傾向にあるみたいです。仮説は検証されませんでしたね。</p>
-<div class="sourceCode" id="cb125"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb125-1"><a href="DC.html#cb125-1"></a><span class="kw">summary</span>(<span class="kw">margins</span>(out_logit))</span></code></pre></div>
+<div class="sourceCode" id="cb124"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb124-1"><a href="DC.html#cb124-1"></a><span class="kw">summary</span>(<span class="kw">margins</span>(out_logit))</span></code></pre></div>
 <pre><code>##              factor     AME     SE       z      p   lower
 ##  Familymart_existed -0.0468 0.0130 -3.6026 0.0003 -0.0723
 ##                 pop  0.0000 0.0000  3.4951 0.0005  0.0000
@@ -430,12 +431,12 @@ P(Familymart\_Entry = 1) = F(\alpha + \beta_{1}\times Familymart\_existed_{i}+ \
 <div id="プロビットモデル" class="section level3">
 <h3><span class="header-section-number">4.4.4</span> プロビットモデル</h3>
 <p>プロビットモデルもロジットモデルとほぼ同じです。唯一違うのは<code>family = binominal(link = "probit")</code>と指定して、プロビットモデルで推定することを明示します。</p>
-<div class="sourceCode" id="cb127"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb127-1"><a href="DC.html#cb127-1"></a>out_probit &lt;-<span class="st"> </span><span class="kw">glm</span>( Familymart_Entry <span class="op">~</span><span class="st"> </span>Familymart_existed <span class="op">+</span><span class="st"> </span>pop, <span class="dt">family =</span> <span class="kw">binomial</span>(<span class="dt">link =</span> <span class="st">&quot;probit&quot;</span>), <span class="dt">data =</span> df)</span></code></pre></div>
+<div class="sourceCode" id="cb126"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb126-1"><a href="DC.html#cb126-1"></a>out_probit &lt;-<span class="st"> </span><span class="kw">glm</span>( Familymart_Entry <span class="op">~</span><span class="st"> </span>Familymart_existed <span class="op">+</span><span class="st"> </span>pop, <span class="dt">family =</span> <span class="kw">binomial</span>(<span class="dt">link =</span> <span class="st">&quot;probit&quot;</span>), <span class="dt">data =</span> df)</span></code></pre></div>
 </div>
 <div id="解釈-4" class="section level3">
 <h3><span class="header-section-number">4.4.5</span> 解釈</h3>
 <p>こちらも同じです。</p>
-<div class="sourceCode" id="cb128"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb128-1"><a href="DC.html#cb128-1"></a><span class="kw">summary</span>(out_probit)</span></code></pre></div>
+<div class="sourceCode" id="cb127"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb127-1"><a href="DC.html#cb127-1"></a><span class="kw">summary</span>(out_probit)</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## glm(formula = Familymart_Entry ~ Familymart_existed + pop, family = binomial(link = &quot;probit&quot;), 
@@ -466,7 +467,7 @@ P(Familymart\_Entry = 1) = F(\alpha + \beta_{1}\times Familymart\_existed_{i}+ \
 ## 
 ## Number of Fisher Scoring iterations: 5</code></pre>
 <p>こちらも同じです。少し確率は下がったようです。</p>
-<div class="sourceCode" id="cb130"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb130-1"><a href="DC.html#cb130-1"></a><span class="kw">summary</span>(<span class="kw">margins</span>(out_probit))</span></code></pre></div>
+<div class="sourceCode" id="cb129"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb129-1"><a href="DC.html#cb129-1"></a><span class="kw">summary</span>(<span class="kw">margins</span>(out_probit))</span></code></pre></div>
 <pre><code>##              factor     AME     SE       z      p   lower
 ##  Familymart_existed -0.0426 0.0121 -3.5112 0.0004 -0.0664
 ##                 pop  0.0000 0.0000  3.3889 0.0007  0.0000
@@ -478,11 +479,11 @@ P(Familymart\_Entry = 1) = F(\alpha + \beta_{1}\times Familymart\_existed_{i}+ \
 <div id="推定結果の整理-1" class="section level2">
 <h2><span class="header-section-number">4.5</span> 推定結果の整理</h2>
 <p>ロジットモデルとプロビットモデルの結果を比較してみます</p>
-<div class="sourceCode" id="cb132"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb132-1"><a href="DC.html#cb132-1"></a><span class="kw">library</span>(stargazer)</span></code></pre></div>
+<div class="sourceCode" id="cb131"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb131-1"><a href="DC.html#cb131-1"></a><span class="kw">library</span>(stargazer)</span></code></pre></div>
 <p>ちなみに、OLS推定でも推定自体は出来ます。線形確率モデルとも呼ばれたりします。</p>
-<div class="sourceCode" id="cb133"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb133-1"><a href="DC.html#cb133-1"></a>out_OLS &lt;-<span class="st"> </span><span class="kw">lm</span>(Familymart_Entry <span class="op">~</span><span class="st"> </span>Familymart_existed <span class="op">+</span><span class="st"> </span>pop, <span class="dt">data =</span> df)</span></code></pre></div>
+<div class="sourceCode" id="cb132"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb132-1"><a href="DC.html#cb132-1"></a>out_OLS &lt;-<span class="st"> </span><span class="kw">lm</span>(Familymart_Entry <span class="op">~</span><span class="st"> </span>Familymart_existed <span class="op">+</span><span class="st"> </span>pop, <span class="dt">data =</span> df)</span></code></pre></div>
 <p>ロジットモデルとプロビットモデルとで正負は一致しています。</p>
-<div class="sourceCode" id="cb134"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb134-1"><a href="DC.html#cb134-1"></a><span class="kw">stargazer</span>(out_OLS, out_logit, out_probit, <span class="dt">type=</span><span class="st">&quot;text&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb133"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb133-1"><a href="DC.html#cb133-1"></a><span class="kw">stargazer</span>(out_OLS, out_logit, out_probit, <span class="dt">type=</span><span class="st">&quot;text&quot;</span>)</span></code></pre></div>
 <pre><code>## 
 ## ===============================================================
 ##                                 Dependent variable:            

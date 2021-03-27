@@ -255,8 +255,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="データの読み込み-1" class="section level2">
 <h2><span class="header-section-number">3.2</span> データの読み込み</h2>
 <p>今回使用するデータはU.S. census (1980年)の既婚女性に関するもので、22~ 35歳の2人以上の子供を持つ既婚女性,計254,654人が対象です。</p>
-<div class="sourceCode" id="cb94"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb94-1"><a href="IV.html#cb94-1"></a>df &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&#39;data/labsup_edited.csv&#39;</span>)</span>
-<span id="cb94-2"><a href="IV.html#cb94-2"></a><span class="kw">head</span>(df)</span></code></pre></div>
+<div class="sourceCode" id="cb96"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb96-1"><a href="IV.html#cb96-1"></a>df &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&#39;data/labsup_edited.csv&#39;</span>)</span>
+<span id="cb96-2"><a href="IV.html#cb96-2"></a><span class="kw">head</span>(df)</span></code></pre></div>
 <pre><code>##   morekids boy1st boy2nd samesex agem1 black hispan
 ## 1        0      1      0       0    27     0      0
 ## 2        0      0      1       0    30     0      0
@@ -322,7 +322,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="データの把握-1" class="section level2">
 <h2><span class="header-section-number">3.3</span> データの把握</h2>
 <p>データの特徴を把握していきます。欠損値は特になさそうです。<code>weeksm1</code>を見ると、働いてない女性も結構いますね。</p>
-<div class="sourceCode" id="cb96"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb96-1"><a href="IV.html#cb96-1"></a><span class="kw">summary</span>(df)</span></code></pre></div>
+<div class="sourceCode" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb98-1"><a href="IV.html#cb98-1"></a><span class="kw">summary</span>(df)</span></code></pre></div>
 <pre><code>##     morekids          boy1st           boy2nd      
 ##  Min.   :0.0000   Min.   :0.0000   Min.   :0.0000  
 ##  1st Qu.:0.0000   1st Qu.:0.0000   1st Qu.:0.0000  
@@ -371,8 +371,8 @@ weeksm1_{i} = \alpha + \beta_{1}\times \widehat{morekids_{i}}+ \beta_{2}\times a
 <li>子供の性別は直接的に労働時間に影響は与えない</li>
 </ul>
 <p>このうち<em>妥当性</em>に関しては、1段階の推定でF値が10を超えるかどうかで定量的に判断出来ます。（あくまで経験則ですが…）今回の場合で実際に推定してみると、<code>samesex</code>は<code>morekids</code>に統計的に有意な影響をあたえており、F値も10を超えているので妥当性に関しては満たされていそうです。<em>外生性</em>に関しては言葉を尽くすのみです。</p>
-<div class="sourceCode" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb98-1"><a href="IV.html#cb98-1"></a>out_1st &lt;-<span class="st"> </span><span class="kw">lm</span>(morekids <span class="op">~</span><span class="st"> </span>samesex <span class="op">+</span><span class="st"> </span>agem1 <span class="op">+</span><span class="st"> </span>black <span class="op">+</span><span class="st"> </span>hispan <span class="op">+</span><span class="st"> </span>othrace , <span class="dt">data =</span> df)</span>
-<span id="cb98-2"><a href="IV.html#cb98-2"></a><span class="kw">summary</span>(out_1st)</span></code></pre></div>
+<div class="sourceCode" id="cb100"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb100-1"><a href="IV.html#cb100-1"></a>out_1st &lt;-<span class="st"> </span><span class="kw">lm</span>(morekids <span class="op">~</span><span class="st"> </span>samesex <span class="op">+</span><span class="st"> </span>agem1 <span class="op">+</span><span class="st"> </span>black <span class="op">+</span><span class="st"> </span>hispan <span class="op">+</span><span class="st"> </span>othrace , <span class="dt">data =</span> df)</span>
+<span id="cb100-2"><a href="IV.html#cb100-2"></a><span class="kw">summary</span>(out_1st)</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = morekids ~ samesex + agem1 + black + hispan + othrace, 
@@ -401,7 +401,7 @@ weeksm1_{i} = \alpha + \beta_{1}\times \widehat{morekids_{i}}+ \beta_{2}\times a
 <div id="推定-3" class="section level3">
 <h3><span class="header-section-number">3.4.3</span> 推定</h3>
 <p>操作変数の妥当性・外生性の吟味を終えたので、実際に操作変数法で推定してみましょう！<code>AER</code>パッケージに入っている<code>ivreg</code>という関数を使います。初めて<code>AER</code>パッケージを使う人は事前に<code>install.packages("AER")</code>を実行してください。</p>
-<div class="sourceCode" id="cb100"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb100-1"><a href="IV.html#cb100-1"></a><span class="kw">library</span>(AER)</span></code></pre></div>
+<div class="sourceCode" id="cb102"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb102-1"><a href="IV.html#cb102-1"></a><span class="kw">library</span>(AER)</span></code></pre></div>
 <pre><code>## Loading required package: lmtest</code></pre>
 <pre><code>## Loading required package: zoo</code></pre>
 <pre><code>## 
@@ -412,12 +412,12 @@ weeksm1_{i} = \alpha + \beta_{1}\times \widehat{morekids_{i}}+ \beta_{2}\times a
 <pre><code>## Loading required package: sandwich</code></pre>
 <pre><code>## Loading required package: survival</code></pre>
 <p><code>ivreg(被説明変数 ~ 内生変数 + その他説明変数 | 操作変数 + その他説明変数, data = データの名前)</code>このように書きます。今回は推定結果を<code>out_iv</code>に格納します。</p>
-<div class="sourceCode" id="cb107"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb107-1"><a href="IV.html#cb107-1"></a>out_iv &lt;-<span class="st"> </span><span class="kw">ivreg</span>( weeksm1 <span class="op">~</span><span class="st"> </span>morekids <span class="op">+</span><span class="st"> </span>agem1 <span class="op">+</span><span class="st"> </span>black <span class="op">+</span><span class="st"> </span>hispan <span class="op">+</span><span class="st"> </span>othrace  <span class="op">|</span><span class="st">  </span>samesex <span class="op">+</span><span class="st"> </span>agem1 <span class="op">+</span><span class="st"> </span>black <span class="op">+</span><span class="st"> </span>hispan <span class="op">+</span><span class="st"> </span>othrace, <span class="dt">data =</span> df)</span></code></pre></div>
+<div class="sourceCode" id="cb109"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb109-1"><a href="IV.html#cb109-1"></a>out_iv &lt;-<span class="st"> </span><span class="kw">ivreg</span>( weeksm1 <span class="op">~</span><span class="st"> </span>morekids <span class="op">+</span><span class="st"> </span>agem1 <span class="op">+</span><span class="st"> </span>black <span class="op">+</span><span class="st"> </span>hispan <span class="op">+</span><span class="st"> </span>othrace  <span class="op">|</span><span class="st">  </span>samesex <span class="op">+</span><span class="st"> </span>agem1 <span class="op">+</span><span class="st"> </span>black <span class="op">+</span><span class="st"> </span>hispan <span class="op">+</span><span class="st"> </span>othrace, <span class="dt">data =</span> df)</span></code></pre></div>
 </div>
 <div id="解釈-2" class="section level3">
 <h3><span class="header-section-number">3.4.4</span> 解釈</h3>
 <p>結果をみる時は、いつも通り<code>summary()</code>です。2段階目の推定結果が出力されます。基本的にはOLS推定と見方は同じです。追加的に子供が1人増えると、5.8時ほど週の労働時間が減少する傾向にあるみたいです。</p>
-<div class="sourceCode" id="cb108"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb108-1"><a href="IV.html#cb108-1"></a><span class="kw">summary</span>(out_iv)</span></code></pre></div>
+<div class="sourceCode" id="cb110"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb110-1"><a href="IV.html#cb110-1"></a><span class="kw">summary</span>(out_iv)</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## ivreg(formula = weeksm1 ~ morekids + agem1 + black + hispan + 
@@ -447,15 +447,11 @@ weeksm1_{i} = \alpha + \beta_{1}\times \widehat{morekids_{i}}+ \beta_{2}\times a
 <div id="推定結果の整理" class="section level2">
 <h2><span class="header-section-number">3.5</span> 推定結果の整理</h2>
 <p>さて、操作変数法を使ったことでOLS推定での結果からどのように変化をしたか検討してみます。OLS推定だと、働きたくない人（労働時間を短い人）ほど、子供を多く出産する逆の因果性による効果もパラメータの値に含まれてしまうので、<code>morekids</code>のパラメータの値は大きく推定されると予想出来ます。</p>
-<div class="sourceCode" id="cb110"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb110-1"><a href="IV.html#cb110-1"></a>out_OLS &lt;-<span class="st"> </span><span class="kw">lm</span>(weeksm1 <span class="op">~</span><span class="st"> </span>morekids <span class="op">+</span><span class="st"> </span>agem1 <span class="op">+</span><span class="st"> </span>black <span class="op">+</span><span class="st"> </span>hispan <span class="op">+</span><span class="st"> </span>othrace , <span class="dt">data =</span> df)</span></code></pre></div>
+<div class="sourceCode" id="cb112"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb112-1"><a href="IV.html#cb112-1"></a>out_OLS &lt;-<span class="st"> </span><span class="kw">lm</span>(weeksm1 <span class="op">~</span><span class="st"> </span>morekids <span class="op">+</span><span class="st"> </span>agem1 <span class="op">+</span><span class="st"> </span>black <span class="op">+</span><span class="st"> </span>hispan <span class="op">+</span><span class="st"> </span>othrace , <span class="dt">data =</span> df)</span></code></pre></div>
 <p>複数の推定結果を比較する際には、この<code>stargazer</code>というライブラリが便利です。</p>
-<div class="sourceCode" id="cb111"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb111-1"><a href="IV.html#cb111-1"></a><span class="kw">library</span>(stargazer)</span></code></pre></div>
-<pre><code>## 
-## Please cite as:</code></pre>
-<pre><code>##  Hlavac, Marek (2018). stargazer: Well-Formatted Regression and Summary Statistics Tables.</code></pre>
-<pre><code>##  R package version 5.2.2. https://CRAN.R-project.org/package=stargazer</code></pre>
+<div class="sourceCode" id="cb113"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb113-1"><a href="IV.html#cb113-1"></a><span class="kw">library</span>(stargazer)</span></code></pre></div>
 <p>推定結果を見てみると、確かに操作変数法を使ったことで、少しパラメータの値が小さくなっていることがわかります。<code>stargazer</code>のより詳しい説明は<a href="https://www.jakeruss.com/cheatsheets/stargazer/">こちら</a>です。</p>
-<div class="sourceCode" id="cb115"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb115-1"><a href="IV.html#cb115-1"></a><span class="kw">stargazer</span>(out_OLS, out_iv, <span class="dt">type=</span><span class="st">&quot;text&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb114"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb114-1"><a href="IV.html#cb114-1"></a><span class="kw">stargazer</span>(out_OLS, out_iv, <span class="dt">type=</span><span class="st">&quot;text&quot;</span>)</span></code></pre></div>
 <pre><code>## 
 ## ============================================================================
 ##                                              Dependent variable:            

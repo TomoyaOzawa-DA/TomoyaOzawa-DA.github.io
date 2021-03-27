@@ -271,6 +271,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 4          3                  0                 0
 ## 5          7                  2                 2
 ## 6         12                  0                 0</code></pre>
+<p><em>データをみる際には、データの1行が何を示しているのか？（: 手元のデータは何を観察したものなのか？）を把握することが重要です！</em>今回のデータの1行は、労働者の情報を表しています。具体的には、データ1行目は、労働時間が4950時間で、年齢は35才の人で、時給は0.1616ドル…な労働者の情報というような感じです。</p>
 <p>○変数の説明</p>
 <table>
 <thead>
@@ -563,20 +564,25 @@ hourly\_wage_{i} = \alpha + \beta_{1}\times education_{i}+ \beta_{2}\times age_{
 ## working_dummy      -0.07887511   1.000000000</code></pre>
 <p><code>cor()</code>関数で相関係数は問題なく出力できますが、如何せん見にくいです。<code>psych</code>ライブラリの<code>cor.plot()</code>関数を使うと、見やすく相関係数を可視化してくれます。<code>psych</code>ライブラリを初めて使う方は<code>install.packages("psych")</code>を実行してください。</p>
 <div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb86-1"><a href="OLS.html#cb86-1"></a><span class="kw">library</span>(psych)</span></code></pre></div>
-<div class="sourceCode" id="cb87"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb87-1"><a href="OLS.html#cb87-1"></a><span class="kw">cor.plot</span>(<span class="kw">cor</span>(df))</span></code></pre></div>
+<pre><code>## 
+## Attaching package: &#39;psych&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:ggplot2&#39;:
+## 
+##     %+%, alpha</code></pre>
+<div class="sourceCode" id="cb89"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb89-1"><a href="OLS.html#cb89-1"></a><span class="kw">cor.plot</span>(<span class="kw">cor</span>(df))</span></code></pre></div>
 <p><img src="R-Intro-Econometrics_files/figure-html/multico-1.png" width="672" /></p>
 </div>
 <div id="vif統計量" class="section level3">
 <h3><span class="header-section-number">2.6.2</span> VIF統計量</h3>
 <p>VIF統計量は多重共線性の疑いを定量化できる指標です。10以上の値がでたら怪しんだ方が良いみたいです。理想は2以下らしいです。</p>
-<div class="sourceCode" id="cb88"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb88-1"><a href="OLS.html#cb88-1"></a><span class="kw">library</span>(car)</span></code></pre></div>
+<div class="sourceCode" id="cb90"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb90-1"><a href="OLS.html#cb90-1"></a><span class="kw">library</span>(car)</span></code></pre></div>
 <pre><code>## Loading required package: carData</code></pre>
 <pre><code>## 
 ## Attaching package: &#39;car&#39;</code></pre>
 <pre><code>## The following object is masked from &#39;package:psych&#39;:
 ## 
 ##     logit</code></pre>
-<div class="sourceCode" id="cb92"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb92-1"><a href="OLS.html#cb92-1"></a><span class="kw">vif</span>(out_multi_regress)</span></code></pre></div>
+<div class="sourceCode" id="cb94"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb94-1"><a href="OLS.html#cb94-1"></a><span class="kw">vif</span>(out_multi_regress)</span></code></pre></div>
 <pre><code>##     education           age working_dummy    mother_edu 
 ##      1.364894      1.443657      1.058935      1.632561 
 ##    father_edu   number_kids 

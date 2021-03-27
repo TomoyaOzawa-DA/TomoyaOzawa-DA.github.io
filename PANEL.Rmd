@@ -1,75 +1,118 @@
 
 # パネルデータ分析
 
+パネルデータ分析自体の解説は[こちら](https://speakerdeck.com/tom01/rdeji-liang-jing-ji-xue-number-6-panerudetafen-xi)からどうぞ。
+
 ## 検証する仮説
 「当該路線上で市場集中度が高いほど、運賃は高くなるのでは？」という仮説を検証してみます。市場集中度を示す値として、今回の分析では各路線上でトップシェアを誇るエアラインの市場シェアを使って分析していきます。
 
 
 ## データの読み込み
-
+今回はexcel ファイルを読み込むので、`openxlsx`というパッケージに含まれている`read.xlsx()`関数を使います。
 
 ```{r panle 0, results='hide'}
 library(openxlsx)
 ```
 
+データを見てみます。データの1行は、各年度の各路線における情報が記載されています。つまり、年度ごとに各路線に関して観察したデータになっています。このように観察単位（路線）を複数の期間（年）で観察したデータをパネルデータといいます。
 ```{r panle 1}
 df <- read.xlsx("data/airfare.xlsx")
 head(df)
 ```
 
+○変数の説明
+
+|  変数名  |  説明  |
+| ---- | ---- |
+|  year  |  年  |
+|  origin  |  出発地  |
+|  destin  |  到着地  |
+|  dist  |  距離  |
+|  passen  |  平均乗客数  |
+|  fare  |  運賃  |
+|  bmktshr  |  各路線上でトップシェアを誇るエアラインの市場シェア  |
+|  ID  |  路線に紐づけられたID  |
+
 ## データの把握
 ### 基本統計量
+いつも通りの`summary()`です。
 ```{r panel stat sum}
 summary(df)
 ```
 
 ### データの可視化
+今回のモデルの被説明変数になる`fare`に関して可視化してみましょう。今回は`ggplot2()`というパッケージを使ってみます。詳細は[こちら](https://tomoyaozawa-da.github.io/Others.html#ggplot2-%E5%85%A5%E9%96%80)のリンク集を参考にしてください。
 ```{r panel visual prep , results='hide'}
-library(ggpubr)
+library(ggplot2)
 ```
 
+`ggplot()`で可視化したいデータを指定して、その後可視化の手法（ヒストグラム、箱ひげ図、散布図...）を指定します。ヒストグラムを描きたい場合は`geom_histogram()`です。
 ```{r panel visual}
-gghistogram(df, x = "fare", bins = 30, title = "Histogram of fare")
+g <- ggplot(df, aes(x = fare))
+g <- g + geom_histogram()
+plot(g)
+```
+
+細かいオプションとしては、`geom_histogram(binwidth = 10)`のように`binwidth`でヒストグラムの幅を指定出来たりします。`labs()`ではグラフのタイトルやx軸, y軸の名前も指定出来ます。
+```{r panel visual 2}
+g <- ggplot(df, aes(x = fare))
+g <- g + geom_histogram(binwidth = 10)
+g <- g + labs(title = "Histogram of fare")
+plot(g)
 ```
 
 ### 対数変換
+運賃の分布は左側に偏っていますね。今回は対数に変換することで、この分布の歪みを解消させてみます。`log()`関数を使えば、簡単に対数に変換することが出来ます。対数をとると非線形の推定式を線形として解くことが出来たりするので、よく使います。
 ```{r panel log}
 df$ln_fare <- log(df$fare)
-gghistogram(df, x = "ln_fare", bins = 30, title = "Histogram of ln_fare")
+g <- ggplot(df, aes(x = ln_fare))
+g <- g + geom_histogram()
+g <- g + labs(title = "Histogram of ln_fare")
+plot(g)
 ```
 
 ## 推定
 
 ### 計量経済学モデル
-
+$F=i$は観察単位（路線）$i$の固有効果を示しています
 $$ 
 ln\_fare_{i,t} = \alpha + \beta_{1}\times bmktshr_{i,t}+ \beta_{2}\times dist_{i,t}+ \beta_{3}\times passen_{i,t}+ F_i + u_{i,t} 
 $$
 
 ### 準備
+パネルデータ分析では、`plm`パッケージを使います。
 ```{r panel stat 0, results='hide'}
 library(plm)
 ```
 
-
+Rにパネルデータであると認識させるために、`pdata.frame()`という関数を使います。`()`の中の`index()`において、パネルデータの観察単位と期間を示す変数を指定します。
 ```{r panel prep }
 df_panel <- pdata.frame(df, index = c('ID', 'year'))
 ```
 
 ### 変量効果モデル
+まずは、変量効果モデルで推定していきます。`plm()`関数の中で、`model = "random"`と指定するだけです。他はいつもの`lm()`と同じ書き方です。
 ```{r panel random 1}
-out_random <- plm(ln_fare ~ bmktshr+ dist + passen , data = df_panel, model = "random")
+out_random <- plm(ln_fare ~ bmktshr + dist + passen , data = df_panel, model = "random")
 ```
 
+`summary()`で結果を見てみます。基本的に見方はいつも通りです。Balanced panelという項目が増えているくらいだと思います。
+
+- Balanced panel
+ - n: 観察単位（路線）の数。
+ - T: 期間。今回は1997~2000なので、4です。
+ - N: サンプルサイズ
 ```{r panel random result}
 summary(out_random)
 ```
 
 ### 固定効果モデル
+次に固定効果モデルです。こちらは`model = "within"`です。
 ```{r panel fixed 1}
-out_fix <- plm(ln_fare ~ bmktshr+ dist + passen , data = df_panel, model = "within")
+out_fix <- plm(ln_fare ~ bmktshr + dist + passen , data = df_panel, model = "within")
 ```
 
+`summary()`で結果を見てみます。今回は固定効果モデルなので、期間で値が変化しない`dist`変数は固有効果に含まれてしまうので、結果から落とされています。
 ```{r panel fixed result}
 summary(out_fix)
 ```
@@ -80,17 +123,18 @@ mean(fixef(out_fix))
 ```
 
 ### ハウスマン検定
-
+ハウスマン検定は、変量効果モデルと固定効果モデルとで、どちらのモデルを選択するべきかに答えてくれます。p値が小さい値であれば、対立仮説である固定効果モデルが採択されます。`phtest()`に2つの推定モデルの結果を入れてあげます。
 ```{r hausman}
 phtest(out_fix, out_random)
 ```
 
 ### 固定効果×時間効果
-
+固有の効果に加えて、時間$t$ごとの効果もコントロールすることも出来ます。具体的には、ある特定の期間だけ石油の値段が上昇したために運賃が高くなった。といった効果をコントロールできるはずです。
 $$ 
 ln\_fare_{i,t} = \alpha + \beta_{1}\times bmktshr_{i,t}+ \beta_{2}\times dist_{i,t}+ \beta_{3}\times passen_{i,t}+ F_i +y\_1997_{i, t} +y\_1998_{i, t} +y\_1999_{i, t} + u_{i,t} 
 $$
 
+`effect = "twoways"`と指定するだけです。
 ```{r fixed effext time effect}
 out_fix_time <- plm(ln_fare ~ bmktshr+ dist + passen , data = df_panel, effect = "twoways", model = "within")
 summary(out_fix_time)
@@ -103,11 +147,12 @@ summary(out_fix_time)
 library(stargazer)
 ```
 
-
+OLS推定もやっておきます。
 ```{r panel ols}
 out_OLS <- lm(ln_fare ~ bmktshr+ dist + passen , data = df)
 ```
 
+結果を`stargazer`でまとめてみました。(1)式がOLS、(2)式が固定効果モデル、(3)式が変量効果モデル、(4)式が時間効果を考慮して固定効果モデルです。(4)式をみてみると、`bmktshr`の係数が有意に正となっているので、仮説は検証されています。ただ他にも運賃に影響を与える変数はありそうなので、データをリッチにしてコントロールしていく必要がありそうです。
 ```{r panel result sum}
 stargazer(out_OLS, out_fix, out_random, out_fix_time, type="text")
 ```

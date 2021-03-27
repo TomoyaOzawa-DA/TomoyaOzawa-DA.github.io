@@ -247,15 +247,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="パネルデータ分析" class="section level1">
 <h1><span class="header-section-number">Chapter 5</span> パネルデータ分析</h1>
+<p>パネルデータ分析自体の解説は<a href="https://speakerdeck.com/tom01/rdeji-liang-jing-ji-xue-number-6-panerudetafen-xi">こちら</a>からどうぞ。</p>
 <div id="検証する仮説-3" class="section level2">
 <h2><span class="header-section-number">5.1</span> 検証する仮説</h2>
 <p>「当該路線上で市場集中度が高いほど、運賃は高くなるのでは？」という仮説を検証してみます。市場集中度を示す値として、今回の分析では各路線上でトップシェアを誇るエアラインの市場シェアを使って分析していきます。</p>
 </div>
 <div id="データの読み込み-3" class="section level2">
 <h2><span class="header-section-number">5.2</span> データの読み込み</h2>
-<div class="sourceCode" id="cb136"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb136-1"><a href="PANEL.html#cb136-1"></a><span class="kw">library</span>(openxlsx)</span></code></pre></div>
-<div class="sourceCode" id="cb137"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb137-1"><a href="PANEL.html#cb137-1"></a>df &lt;-<span class="st"> </span><span class="kw">read.xlsx</span>(<span class="st">&quot;data/airfare.xlsx&quot;</span>)</span>
-<span id="cb137-2"><a href="PANEL.html#cb137-2"></a><span class="kw">head</span>(df)</span></code></pre></div>
+<p>今回はexcel ファイルを読み込むので、<code>openxlsx</code>というパッケージに含まれている<code>read.xlsx()</code>関数を使います。</p>
+<div class="sourceCode" id="cb135"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb135-1"><a href="PANEL.html#cb135-1"></a><span class="kw">library</span>(openxlsx)</span></code></pre></div>
+<p>データを見てみます。データの1行は、各年度の各路線における情報が記載されています。つまり、年度ごとに各路線に関して観察したデータになっています。このように観察単位（路線）を複数の期間（年）で観察したデータをパネルデータといいます。</p>
+<div class="sourceCode" id="cb136"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb136-1"><a href="PANEL.html#cb136-1"></a>df &lt;-<span class="st"> </span><span class="kw">read.xlsx</span>(<span class="st">&quot;data/airfare.xlsx&quot;</span>)</span>
+<span id="cb136-2"><a href="PANEL.html#cb136-2"></a><span class="kw">head</span>(df)</span></code></pre></div>
 <pre><code>##   year      origin        destin dist passen fare bmktshr
 ## 1 1997 &quot;AKRON, OH&quot; &quot;ATLANTA, GA&quot;  528    152  106  0.8386
 ## 2 1998 &quot;AKRON, OH&quot; &quot;ATLANTA, GA&quot;  528    265  106  0.8133
@@ -270,12 +273,56 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 4  1
 ## 5  2
 ## 6  2</code></pre>
+<p>○変数の説明</p>
+<table>
+<thead>
+<tr class="header">
+<th>変数名</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>year</td>
+<td>年</td>
+</tr>
+<tr class="even">
+<td>origin</td>
+<td>出発地</td>
+</tr>
+<tr class="odd">
+<td>destin</td>
+<td>到着地</td>
+</tr>
+<tr class="even">
+<td>dist</td>
+<td>距離</td>
+</tr>
+<tr class="odd">
+<td>passen</td>
+<td>平均乗客数</td>
+</tr>
+<tr class="even">
+<td>fare</td>
+<td>運賃</td>
+</tr>
+<tr class="odd">
+<td>bmktshr</td>
+<td>各路線上でトップシェアを誇るエアラインの市場シェア</td>
+</tr>
+<tr class="even">
+<td>ID</td>
+<td>路線に紐づけられたID</td>
+</tr>
+</tbody>
+</table>
 </div>
 <div id="データの把握-3" class="section level2">
 <h2><span class="header-section-number">5.3</span> データの把握</h2>
 <div id="基本統計量-1" class="section level3">
 <h3><span class="header-section-number">5.3.1</span> 基本統計量</h3>
-<div class="sourceCode" id="cb139"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb139-1"><a href="PANEL.html#cb139-1"></a><span class="kw">summary</span>(df)</span></code></pre></div>
+<p>いつも通りの<code>summary()</code>です。</p>
+<div class="sourceCode" id="cb138"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb138-1"><a href="PANEL.html#cb138-1"></a><span class="kw">summary</span>(df)</span></code></pre></div>
 <pre><code>##       year         origin             destin         
 ##  Min.   :1997   Length:4596        Length:4596       
 ##  1st Qu.:1998   Class :character   Class :character  
@@ -300,20 +347,32 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="データの可視化" class="section level3">
 <h3><span class="header-section-number">5.3.2</span> データの可視化</h3>
-<div class="sourceCode" id="cb141"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb141-1"><a href="PANEL.html#cb141-1"></a><span class="kw">library</span>(ggpubr)</span></code></pre></div>
-<pre><code>## Loading required package: ggplot2</code></pre>
-<pre><code>## 
-## Attaching package: &#39;ggplot2&#39;</code></pre>
-<pre><code>## The following objects are masked from &#39;package:psych&#39;:
-## 
-##     %+%, alpha</code></pre>
-<div class="sourceCode" id="cb145"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb145-1"><a href="PANEL.html#cb145-1"></a><span class="kw">gghistogram</span>(df, <span class="dt">x =</span> <span class="st">&quot;fare&quot;</span>, <span class="dt">bins =</span> <span class="dv">30</span>, <span class="dt">title =</span> <span class="st">&quot;Histogram of fare&quot;</span>)</span></code></pre></div>
+<p>今回のモデルの被説明変数になる<code>fare</code>に関して可視化してみましょう。今回は<code>ggplot2()</code>というパッケージを使ってみます。詳細は<a href="https://tomoyaozawa-da.github.io/Others.html#ggplot2-%E5%85%A5%E9%96%80">こちら</a>のリンク集を参考にしてください。</p>
+<div class="sourceCode" id="cb140"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb140-1"><a href="PANEL.html#cb140-1"></a><span class="kw">library</span>(ggplot2)</span></code></pre></div>
+<p><code>ggplot()</code>で可視化したいデータを指定して、その後可視化の手法（ヒストグラム、箱ひげ図、散布図…）を指定します。ヒストグラムを描きたい場合は<code>geom_histogram()</code>です。</p>
+<div class="sourceCode" id="cb141"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb141-1"><a href="PANEL.html#cb141-1"></a>g &lt;-<span class="st"> </span><span class="kw">ggplot</span>(df, <span class="kw">aes</span>(<span class="dt">x =</span> fare))</span>
+<span id="cb141-2"><a href="PANEL.html#cb141-2"></a>g &lt;-<span class="st"> </span>g <span class="op">+</span><span class="st"> </span><span class="kw">geom_histogram</span>()</span>
+<span id="cb141-3"><a href="PANEL.html#cb141-3"></a><span class="kw">plot</span>(g)</span></code></pre></div>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with
+## `binwidth`.</code></pre>
 <p><img src="R-Intro-Econometrics_files/figure-html/panel%20visual-1.png" width="672" /></p>
+<p>細かいオプションとしては、<code>geom_histogram(binwidth = 10)</code>のように<code>binwidth</code>でヒストグラムの幅を指定出来たりします。<code>labs()</code>ではグラフのタイトルやx軸, y軸の名前も指定出来ます。</p>
+<div class="sourceCode" id="cb143"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb143-1"><a href="PANEL.html#cb143-1"></a>g &lt;-<span class="st"> </span><span class="kw">ggplot</span>(df, <span class="kw">aes</span>(<span class="dt">x =</span> fare))</span>
+<span id="cb143-2"><a href="PANEL.html#cb143-2"></a>g &lt;-<span class="st"> </span>g <span class="op">+</span><span class="st"> </span><span class="kw">geom_histogram</span>(<span class="dt">binwidth =</span> <span class="dv">10</span>)</span>
+<span id="cb143-3"><a href="PANEL.html#cb143-3"></a>g &lt;-<span class="st"> </span>g <span class="op">+</span><span class="st"> </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Histogram of fare&quot;</span>)</span>
+<span id="cb143-4"><a href="PANEL.html#cb143-4"></a><span class="kw">plot</span>(g)</span></code></pre></div>
+<p><img src="R-Intro-Econometrics_files/figure-html/panel%20visual%202-1.png" width="672" /></p>
 </div>
 <div id="対数変換" class="section level3">
 <h3><span class="header-section-number">5.3.3</span> 対数変換</h3>
-<div class="sourceCode" id="cb146"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb146-1"><a href="PANEL.html#cb146-1"></a>df<span class="op">$</span>ln_fare &lt;-<span class="st"> </span><span class="kw">log</span>(df<span class="op">$</span>fare)</span>
-<span id="cb146-2"><a href="PANEL.html#cb146-2"></a><span class="kw">gghistogram</span>(df, <span class="dt">x =</span> <span class="st">&quot;ln_fare&quot;</span>, <span class="dt">bins =</span> <span class="dv">30</span>, <span class="dt">title =</span> <span class="st">&quot;Histogram of ln_fare&quot;</span>)</span></code></pre></div>
+<p>運賃の分布は左側に偏っていますね。今回は対数に変換することで、この分布の歪みを解消させてみます。<code>log()</code>関数を使えば、簡単に対数に変換することが出来ます。対数をとると非線形の推定式を線形として解くことが出来たりするので、よく使います。</p>
+<div class="sourceCode" id="cb144"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb144-1"><a href="PANEL.html#cb144-1"></a>df<span class="op">$</span>ln_fare &lt;-<span class="st"> </span><span class="kw">log</span>(df<span class="op">$</span>fare)</span>
+<span id="cb144-2"><a href="PANEL.html#cb144-2"></a>g &lt;-<span class="st"> </span><span class="kw">ggplot</span>(df, <span class="kw">aes</span>(<span class="dt">x =</span> ln_fare))</span>
+<span id="cb144-3"><a href="PANEL.html#cb144-3"></a>g &lt;-<span class="st"> </span>g <span class="op">+</span><span class="st"> </span><span class="kw">geom_histogram</span>()</span>
+<span id="cb144-4"><a href="PANEL.html#cb144-4"></a>g &lt;-<span class="st"> </span>g <span class="op">+</span><span class="st"> </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Histogram of ln_fare&quot;</span>)</span>
+<span id="cb144-5"><a href="PANEL.html#cb144-5"></a><span class="kw">plot</span>(g)</span></code></pre></div>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with
+## `binwidth`.</code></pre>
 <p><img src="R-Intro-Econometrics_files/figure-html/panel%20log-1.png" width="672" /></p>
 </div>
 </div>
@@ -321,19 +380,30 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h2><span class="header-section-number">5.4</span> 推定</h2>
 <div id="計量経済学モデル-4" class="section level3">
 <h3><span class="header-section-number">5.4.1</span> 計量経済学モデル</h3>
-<p><span class="math display">\[ 
+<p><span class="math inline">\(F=i\)</span>は観察単位（路線）<span class="math inline">\(i\)</span>の固有効果を示しています
+<span class="math display">\[ 
 ln\_fare_{i,t} = \alpha + \beta_{1}\times bmktshr_{i,t}+ \beta_{2}\times dist_{i,t}+ \beta_{3}\times passen_{i,t}+ F_i + u_{i,t} 
 \]</span></p>
 </div>
 <div id="準備" class="section level3">
 <h3><span class="header-section-number">5.4.2</span> 準備</h3>
-<div class="sourceCode" id="cb147"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb147-1"><a href="PANEL.html#cb147-1"></a><span class="kw">library</span>(plm)</span></code></pre></div>
-<div class="sourceCode" id="cb148"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb148-1"><a href="PANEL.html#cb148-1"></a>df_panel &lt;-<span class="st"> </span><span class="kw">pdata.frame</span>(df, <span class="dt">index =</span> <span class="kw">c</span>(<span class="st">&#39;ID&#39;</span>, <span class="st">&#39;year&#39;</span>))</span></code></pre></div>
+<p>パネルデータ分析では、<code>plm</code>パッケージを使います。</p>
+<div class="sourceCode" id="cb146"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb146-1"><a href="PANEL.html#cb146-1"></a><span class="kw">library</span>(plm)</span></code></pre></div>
+<p>Rにパネルデータであると認識させるために、<code>pdata.frame()</code>という関数を使います。<code>()</code>の中の<code>index()</code>において、パネルデータの観察単位と期間を示す変数を指定します。</p>
+<div class="sourceCode" id="cb147"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb147-1"><a href="PANEL.html#cb147-1"></a>df_panel &lt;-<span class="st"> </span><span class="kw">pdata.frame</span>(df, <span class="dt">index =</span> <span class="kw">c</span>(<span class="st">&#39;ID&#39;</span>, <span class="st">&#39;year&#39;</span>))</span></code></pre></div>
 </div>
 <div id="変量効果モデル" class="section level3">
 <h3><span class="header-section-number">5.4.3</span> 変量効果モデル</h3>
-<div class="sourceCode" id="cb149"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb149-1"><a href="PANEL.html#cb149-1"></a>out_random &lt;-<span class="st"> </span><span class="kw">plm</span>(ln_fare <span class="op">~</span><span class="st"> </span>bmktshr<span class="op">+</span><span class="st"> </span>dist <span class="op">+</span><span class="st"> </span>passen , <span class="dt">data =</span> df_panel, <span class="dt">model =</span> <span class="st">&quot;random&quot;</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb150"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb150-1"><a href="PANEL.html#cb150-1"></a><span class="kw">summary</span>(out_random)</span></code></pre></div>
+<p>まずは、変量効果モデルで推定していきます。<code>plm()</code>関数の中で、<code>model = "random"</code>と指定するだけです。他はいつもの<code>lm()</code>と同じ書き方です。</p>
+<div class="sourceCode" id="cb148"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb148-1"><a href="PANEL.html#cb148-1"></a>out_random &lt;-<span class="st"> </span><span class="kw">plm</span>(ln_fare <span class="op">~</span><span class="st"> </span>bmktshr <span class="op">+</span><span class="st"> </span>dist <span class="op">+</span><span class="st"> </span>passen , <span class="dt">data =</span> df_panel, <span class="dt">model =</span> <span class="st">&quot;random&quot;</span>)</span></code></pre></div>
+<p><code>summary()</code>で結果を見てみます。基本的に見方はいつも通りです。Balanced panelという項目が増えているくらいだと思います。</p>
+<ul>
+<li>Balanced panel</li>
+<li>n: 観察単位（路線）の数。</li>
+<li>T: 期間。今回は1997~2000なので、4です。</li>
+<li>N: サンプルサイズ</li>
+</ul>
+<div class="sourceCode" id="cb149"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb149-1"><a href="PANEL.html#cb149-1"></a><span class="kw">summary</span>(out_random)</span></code></pre></div>
 <pre><code>## Oneway (individual) effect Random Effect Model 
 ##    (Swamy-Arora&#39;s transformation)
 ## 
@@ -373,8 +443,10 @@ ln\_fare_{i,t} = \alpha + \beta_{1}\times bmktshr_{i,t}+ \beta_{2}\times dist_{i
 </div>
 <div id="固定効果モデル" class="section level3">
 <h3><span class="header-section-number">5.4.4</span> 固定効果モデル</h3>
-<div class="sourceCode" id="cb152"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb152-1"><a href="PANEL.html#cb152-1"></a>out_fix &lt;-<span class="st"> </span><span class="kw">plm</span>(ln_fare <span class="op">~</span><span class="st"> </span>bmktshr<span class="op">+</span><span class="st"> </span>dist <span class="op">+</span><span class="st"> </span>passen , <span class="dt">data =</span> df_panel, <span class="dt">model =</span> <span class="st">&quot;within&quot;</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb153"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb153-1"><a href="PANEL.html#cb153-1"></a><span class="kw">summary</span>(out_fix)</span></code></pre></div>
+<p>次に固定効果モデルです。こちらは<code>model = "within"</code>です。</p>
+<div class="sourceCode" id="cb151"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb151-1"><a href="PANEL.html#cb151-1"></a>out_fix &lt;-<span class="st"> </span><span class="kw">plm</span>(ln_fare <span class="op">~</span><span class="st"> </span>bmktshr <span class="op">+</span><span class="st"> </span>dist <span class="op">+</span><span class="st"> </span>passen , <span class="dt">data =</span> df_panel, <span class="dt">model =</span> <span class="st">&quot;within&quot;</span>)</span></code></pre></div>
+<p><code>summary()</code>で結果を見てみます。今回は固定効果モデルなので、期間で値が変化しない<code>dist</code>変数は固有効果に含まれてしまうので、結果から落とされています。</p>
+<div class="sourceCode" id="cb152"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb152-1"><a href="PANEL.html#cb152-1"></a><span class="kw">summary</span>(out_fix)</span></code></pre></div>
 <pre><code>## Oneway (individual) effect Within Model
 ## 
 ## Call:
@@ -403,12 +475,13 @@ ln\_fare_{i,t} = \alpha + \beta_{1}\times bmktshr_{i,t}+ \beta_{2}\times dist_{i
 ## Adj. R-Squared: -0.20234
 ## F-statistic: 188.365 on 2 and 3445 DF, p-value: &lt; 2.22e-16</code></pre>
 <p>固定効果自体はfixefで取り出せます。</p>
-<div class="sourceCode" id="cb155"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb155-1"><a href="PANEL.html#cb155-1"></a><span class="kw">mean</span>(<span class="kw">fixef</span>(out_fix))</span></code></pre></div>
+<div class="sourceCode" id="cb154"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb154-1"><a href="PANEL.html#cb154-1"></a><span class="kw">mean</span>(<span class="kw">fixef</span>(out_fix))</span></code></pre></div>
 <pre><code>## [1] 5.268405</code></pre>
 </div>
 <div id="ハウスマン検定" class="section level3">
 <h3><span class="header-section-number">5.4.5</span> ハウスマン検定</h3>
-<div class="sourceCode" id="cb157"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb157-1"><a href="PANEL.html#cb157-1"></a><span class="kw">phtest</span>(out_fix, out_random)</span></code></pre></div>
+<p>ハウスマン検定は、変量効果モデルと固定効果モデルとで、どちらのモデルを選択するべきかに答えてくれます。p値が小さい値であれば、対立仮説である固定効果モデルが採択されます。<code>phtest()</code>に2つの推定モデルの結果を入れてあげます。</p>
+<div class="sourceCode" id="cb156"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb156-1"><a href="PANEL.html#cb156-1"></a><span class="kw">phtest</span>(out_fix, out_random)</span></code></pre></div>
 <pre><code>## 
 ##  Hausman Test
 ## 
@@ -418,11 +491,13 @@ ln\_fare_{i,t} = \alpha + \beta_{1}\times bmktshr_{i,t}+ \beta_{2}\times dist_{i
 </div>
 <div id="固定効果時間効果" class="section level3">
 <h3><span class="header-section-number">5.4.6</span> 固定効果×時間効果</h3>
-<p><span class="math display">\[ 
+<p>固有の効果に加えて、時間<span class="math inline">\(t\)</span>ごとの効果もコントロールすることも出来ます。具体的には、ある特定の期間だけ石油の値段が上昇したために運賃が高くなった。といった効果をコントロールできるはずです。
+<span class="math display">\[ 
 ln\_fare_{i,t} = \alpha + \beta_{1}\times bmktshr_{i,t}+ \beta_{2}\times dist_{i,t}+ \beta_{3}\times passen_{i,t}+ F_i +y\_1997_{i, t} +y\_1998_{i, t} +y\_1999_{i, t} + u_{i,t} 
 \]</span></p>
-<div class="sourceCode" id="cb159"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb159-1"><a href="PANEL.html#cb159-1"></a>out_fix_time &lt;-<span class="st"> </span><span class="kw">plm</span>(ln_fare <span class="op">~</span><span class="st"> </span>bmktshr<span class="op">+</span><span class="st"> </span>dist <span class="op">+</span><span class="st"> </span>passen , <span class="dt">data =</span> df_panel, <span class="dt">effect =</span> <span class="st">&quot;twoways&quot;</span>, <span class="dt">model =</span> <span class="st">&quot;within&quot;</span>)</span>
-<span id="cb159-2"><a href="PANEL.html#cb159-2"></a><span class="kw">summary</span>(out_fix_time)</span></code></pre></div>
+<p><code>effect = "twoways"</code>と指定するだけです。</p>
+<div class="sourceCode" id="cb158"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb158-1"><a href="PANEL.html#cb158-1"></a>out_fix_time &lt;-<span class="st"> </span><span class="kw">plm</span>(ln_fare <span class="op">~</span><span class="st"> </span>bmktshr<span class="op">+</span><span class="st"> </span>dist <span class="op">+</span><span class="st"> </span>passen , <span class="dt">data =</span> df_panel, <span class="dt">effect =</span> <span class="st">&quot;twoways&quot;</span>, <span class="dt">model =</span> <span class="st">&quot;within&quot;</span>)</span>
+<span id="cb158-2"><a href="PANEL.html#cb158-2"></a><span class="kw">summary</span>(out_fix_time)</span></code></pre></div>
 <pre><code>## Twoways effects Within Model
 ## 
 ## Call:
@@ -452,9 +527,11 @@ ln\_fare_{i,t} = \alpha + \beta_{1}\times bmktshr_{i,t}+ \beta_{2}\times dist_{i
 </div>
 <div id="推定結果の整理-2" class="section level2">
 <h2><span class="header-section-number">5.5</span> 推定結果の整理</h2>
-<div class="sourceCode" id="cb161"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb161-1"><a href="PANEL.html#cb161-1"></a><span class="kw">library</span>(stargazer)</span></code></pre></div>
-<div class="sourceCode" id="cb162"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb162-1"><a href="PANEL.html#cb162-1"></a>out_OLS &lt;-<span class="st"> </span><span class="kw">lm</span>(ln_fare <span class="op">~</span><span class="st"> </span>bmktshr<span class="op">+</span><span class="st"> </span>dist <span class="op">+</span><span class="st"> </span>passen , <span class="dt">data =</span> df)</span></code></pre></div>
-<div class="sourceCode" id="cb163"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb163-1"><a href="PANEL.html#cb163-1"></a><span class="kw">stargazer</span>(out_OLS, out_fix, out_random, out_fix_time, <span class="dt">type=</span><span class="st">&quot;text&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb160"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb160-1"><a href="PANEL.html#cb160-1"></a><span class="kw">library</span>(stargazer)</span></code></pre></div>
+<p>OLS推定もやっておきます。</p>
+<div class="sourceCode" id="cb161"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb161-1"><a href="PANEL.html#cb161-1"></a>out_OLS &lt;-<span class="st"> </span><span class="kw">lm</span>(ln_fare <span class="op">~</span><span class="st"> </span>bmktshr<span class="op">+</span><span class="st"> </span>dist <span class="op">+</span><span class="st"> </span>passen , <span class="dt">data =</span> df)</span></code></pre></div>
+<p>結果を<code>stargazer</code>でまとめてみました。(1)式がOLS、(2)式が固定効果モデル、(3)式が変量効果モデル、(4)式が時間効果を考慮して固定効果モデルです。(4)式をみてみると、<code>bmktshr</code>の係数が有意に正となっているので、仮説は検証されています。ただ他にも運賃に影響を与える変数はありそうなので、データをリッチにしてコントロールしていく必要がありそうです。</p>
+<div class="sourceCode" id="cb162"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb162-1"><a href="PANEL.html#cb162-1"></a><span class="kw">stargazer</span>(out_OLS, out_fix, out_random, out_fix_time, <span class="dt">type=</span><span class="st">&quot;text&quot;</span>)</span></code></pre></div>
 <pre><code>## 
 ## ================================================================================================================
 ##                                                         Dependent variable:                                     
